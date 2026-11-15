@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GPU, VRAM and speed: what WildID needs</title>
+<meta name="description" content="Measured speed and memory for WildID on an NVIDIA RTX 4090 and on a Mac with an M5 Pro, what to expect on smaller graphics cards, and how it runs on a CPU without a graphics card.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/hardware.html">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="GPU, VRAM and speed: what WildID needs">
+<meta property="og:description" content="Measured speed and memory for WildID on an NVIDIA RTX 4090 and on a Mac with an M5 Pro, what to expect on smaller graphics cards, and how it runs on a CPU without a graphics card.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/hardware.html">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"WildID","item":"https://WILDID-SITE-URL.invalid/"},{"@type":"ListItem","position":2,"name":"GPU, VRAM and speed","item":"https://WILDID-SITE-URL.invalid/hardware.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="index.html#windows-setup">Windows setup</a></li>
+        <li><a href="index.html#macos-setup">macOS setup</a></li>
+        <li><a href="index.html#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">WildID</a> › GPU, VRAM and speed</p>
+    <h1>GPU, VRAM and speed</h1>
+    <p class="lede">WildID is built for strong NVIDIA graphics cards and for Macs with Apple Silicon. Every number on this page was measured on one graphics card, an RTX 4090, or on one Mac, a MacBook Pro with an M5 Pro. Nothing else has been tested, so read the notes about smaller graphics cards as estimates.</p>
+  </div>
+</div>
+<div class="article">
+  <div class="wrap">
+    <div class="prose">
+      <h2>What it was tested on</h2>
+      <p>One graphics card: an NVIDIA GeForce RTX 4090 with 24 GB of memory, in two computers. One runs Windows 11 with Lightroom Classic 15.4.1, the other runs Linux. No other card has been tried so far. The processor-only mode was run once, on the Linux computer.</p>
+      <p>One Mac: a MacBook Pro with an M5 Pro chip and 48 GB of memory, running macOS 26.5. No other Mac has been tried. Its figures come from the command line and from the engine fed the way the Lightroom plugin feeds it. <a href="#mac">The figures for the Mac</a></p>
+
+      <h2>Speed on the RTX 4090</h2>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Situation</th><th scope="col">Photos per second</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Engine as Lightroom uses it: 61-megapixel RAW files, crop on, place list</th><td>about 10</td></tr>
+          <tr><th scope="row">Command line, folder of RAW files, crop on</th><td>27 to 32</td></tr>
+          <tr><th scope="row">Command line, folder of RAW files, no crop</th><td>53 to 59</td></tr>
+          <tr><th scope="row">Command line, folder of JPEGs (1440 × 1800 pixels), crop on</th><td>62 to 71</td></tr>
+          <tr><th scope="row">Command line, folder of JPEGs, no crop</th><td>144 with BioCLIP 2, 98 with BioCLIP 2.5</td></tr>
+          <tr><th scope="row">Command line, crop and SpeciesNet second opinion</th><td>about 30</td></tr>
+        </tbody>
+        <caption>BioCLIP 2 unless stated. With RAW files and the crop, reading the files and finding the animal take most of the time. In Lightroom, writing keywords and collections into the catalog comes on top.</caption>
+      </table>
+    </div>
+    <div class="prose">
+      <p>At 10 photos per second, a thousand photos take under two minutes of engine time. The first run of a session adds the time to start the engine and load the model, about ten seconds on the test computer.</p>
+
+      <h2>Graphics memory per model</h2>
+      <p>These figures are what the engine itself held while Lightroom sent it batches of 24 photos with the crop on. Add what Windows, Lightroom and your other programs already use, which was 1 to 2 GB on the test computers.</p>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Loaded</th><th scope="col">Idle</th><th scope="col">While working</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">BioCLIP 2</th><td>4.8 GB</td><td>6.8 GB</td></tr>
+          <tr><th scope="row">BioCLIP 2.5</th><td>7.7 GB</td><td>9.7 GB</td></tr>
+          <tr><th scope="row">Both models</th><td>12.3 GB</td><td>14.1 GB</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>The engine gives the memory back when it stops. It stops by itself after 15 minutes without work, and you can stop it at once with <strong>WildID: server status…</strong> in Lightroom.</p>
+
+      <h2>Smaller graphics cards</h2>
+      <p>Nobody has run WildID on a smaller card yet. The figures above suggest the following, and these are estimates:</p>
+      <ul>
+        <li><strong>BioCLIP&nbsp;2 with the crop</strong> needs about 7 GB free. A card with 12 GB should be comfortable. A card with 8 GB is tight, because the desktop and Lightroom use part of it.</li>
+        <li><strong>BioCLIP&nbsp;2.5 with the crop</strong> needs about 10 GB free. A card with 16 GB should be comfortable, one with 12 GB is tight.</li>
+        <li><strong>Both models loaded</strong> need about 14 GB plus the desktop. The option is offered when the card reports 20 GB or more.</li>
+      </ul>
+      <p>If the model does not fit into the graphics memory, the run can fail or become very slow. In that case use BioCLIP&nbsp;2, switch off &ldquo;Keep both models loaded&rdquo; and close other programs that use the graphics card.</p>
+      <p>On a PC only NVIDIA cards are used. With an AMD or Intel graphics card WildID runs on the processor.</p>
+
+      <h3>Why Lightroom shows 25.8 GB for a 24 GB card</h3>
+      <p>The dialog reports graphics memory in decimal gigabytes, the same unit hard-disk makers use. A card sold as 24 GB shows as 25.8 GB and a card sold as 16 GB shows as 17.2 GB. The 20 GB rule for keeping both models loaded uses this reported value.</p>
+
+      <h2 id="mac">On a Mac with Apple Silicon</h2>
+      <p>On a Mac, WildID uses the graphics processor that is part of the Apple chip. The figures below are what one Mac did: a MacBook Pro with an M5 Pro chip and 48 GB of memory. No other Mac has been tried.</p>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Situation</th><th scope="col">BioCLIP 2</th><th scope="col">BioCLIP 2.5</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Engine fed batches of 24 RAW files with the crop on, the way the Lightroom plugin feeds it</th><td>about 15</td><td>10 to 11</td></tr>
+          <tr><th scope="row">Command line, folder of RAW files, crop on</th><td>16</td><td>11</td></tr>
+          <tr><th scope="row">Command line, folder of RAW files, no crop</th><td>22 to 26</td><td>not measured</td></tr>
+          <tr><th scope="row">Command line, folder of JPEGs (1440 × 1800 pixels), crop on</th><td>21</td><td>13 to 14</td></tr>
+          <tr><th scope="row">Command line, folder of JPEGs, no crop</th><td>33</td><td>17</td></tr>
+          <tr><th scope="row">Command line, crop and SpeciesNet second opinion</th><td>about 12</td><td>not measured</td></tr>
+          <tr><th scope="row">Processor only, folder of JPEGs, no crop</th><td>about 8</td><td>about 4</td></tr>
+        </tbody>
+        <caption>Photos per second on the M5 Pro. On the same command-line runs the RTX 4090 is two to six times as fast.</caption>
+      </table>
+    </div>
+    <div class="prose">
+      <p>The first run of a session adds the time to start the engine and load the model, about four seconds for BioCLIP&nbsp;2 on this Mac.</p>
+      <p>Memory on a Mac is shared between the system, your programs and the graphics processor, so WildID takes its share from the same memory Lightroom uses. These figures are what the engine held while it was fed batches of 24 photos with the crop on.</p>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Loaded</th><th scope="col">Idle</th><th scope="col">While working</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">BioCLIP 2</th><td>9.4 GB</td><td>11.7 GB</td></tr>
+          <tr><th scope="row">BioCLIP 2.5</th><td>12.9 GB</td><td>13.4 GB</td></tr>
+          <tr><th scope="row">Both models</th><td>19.2 GB</td><td>20.1 GB</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>&ldquo;Keep both models loaded&rdquo; is offered on a Mac when it reports 30 GB or more as usable for the graphics processor. The tested Mac reports 40.2 GB of its 48 GB, and the Identify dialog shows that figure.</p>
+
+      <h3 id="mac-and-pc">A Mac and a PC do not always give the same name</h3>
+      <p>Without the crop, the tested Mac and the RTX 4090 gave the same name for every one of 863 JPEGs with both models and for every one of 157 RAW files. With the crop on, 37 of their 2,040 answers differed, about 2 % (1,020 photos, each identified with both models), and in 31 of those 37 the photo was flagged for review on both computers.</p>
+      <p>The reason is a small step before the animal detector. Each photo is reduced to the detector&rsquo;s size, and the library that does this computes slightly different pixels on a Mac than on a PC: about a fifth of the values differ by 1 of 255. The detector then draws its box a pixel or two differently on about a third of the JPEGs, and where the model was undecided, another name comes out on top. Neither computer is wrong.</p>
+      <p>The Identify dialog has an option for this, &ldquo;Exact detector resize (meant to be the same on every computer)&rdquo;, and the command line has <code>--crop-exact</code>. Both are off by default. They reduce the photo with a method that is meant to give the same pixels everywhere. A few names change against a run without the option.</p>
+
+      <h2>Without a graphics card</h2>
+      <p>WildID falls back to the processor by itself. It then needs about 10 GB of free main memory and takes seconds per photo. The one measurement on a PC so far: a single test photo took 6.9 seconds on a 32-core desktop processor, including the time to load the model. That is fine for a handful of photos and slow for a whole trip.</p>
+
+      <h2>Disk space and downloads</h2>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Part</th><th scope="col">Size</th><th scope="col">When</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Windows installer</th><td>about 20 MB</td><td>Download</td></tr>
+          <tr><th scope="row">macOS download</th><td>about 23 MB</td><td>Download</td></tr>
+          <tr><th scope="row">Python and libraries, including PyTorch, on Windows and Linux</th><td>about 5 GB</td><td>Installation</td></tr>
+          <tr><th scope="row">Python and libraries, including PyTorch, on a Mac</th><td>about 1.2 GB</td><td>Installation</td></tr>
+          <tr><th scope="row">BioCLIP 2</th><td>4.5 GB</td><td>Setup</td></tr>
+          <tr><th scope="row">BioCLIP 2.5</th><td>7.3 GB</td><td>Setup, optional</td></tr>
+          <tr><th scope="row">MegaDetector crop stage</th><td>52 MB</td><td>Setup</td></tr>
+          <tr><th scope="row">SpeciesNet</th><td>209 MB</td><td>Setup, optional</td></tr>
+          <tr><th scope="row">Place lists</th><td>small</td><td>Whenever you fetch one</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="pager"><a href="models.html">Previous: Models</a><a href="accuracy.html">Next: When a name is wrong</a></p>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="index.html#windows-setup">Windows setup</a></li>
+          <li><a href="index.html#macos-setup">macOS setup</a></li>
+          <li><a href="index.html#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

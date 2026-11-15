@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Place lists and GPS: narrow the candidates in WildID</title>
+<meta name="description" content="Limit WildID's candidates to the species recorded in the country or region where you took the photo, by name or from each photo's GPS position.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/places.html">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="Place lists and GPS: narrow the candidates in WildID">
+<meta property="og:description" content="Limit WildID's candidates to the species recorded in the country or region where you took the photo, by name or from each photo's GPS position.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/places.html">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"WildID","item":"https://WILDID-SITE-URL.invalid/"},{"@type":"ListItem","position":2,"name":"Place lists and GPS","item":"https://WILDID-SITE-URL.invalid/places.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="index.html#windows-setup">Windows setup</a></li>
+        <li><a href="index.html#macos-setup">macOS setup</a></li>
+        <li><a href="index.html#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">WildID</a> › Place lists and GPS</p>
+    <h1>Place lists and GPS</h1>
+    <p class="lede">A place list limits the candidates to the species recorded in the country or region where you took the photo. It is one of the two settings that improve the answers most. The other is the crop.</p>
+  </div>
+</div>
+<div class="article">
+  <div class="wrap">
+    <div class="prose">
+      <h2>Why a list helps</h2>
+      <p>Without a list the model chooses among 867,455 names from the whole world. With the list for Kenya it chooses among about 1,400, and with the list for Madagascar among about 860. Look-alike species from other continents are no longer candidates.</p>
+      <p>On 401 of our lemur photos the Madagascar list raised the share of correct names from 69.8 % to 77.1 % with BioCLIP&nbsp;2. BioCLIP&nbsp;2.5 gained less, from 79.8 % to 80.8 %.</p>
+
+      <h2>Where the lists come from</h2>
+      <p>A list contains the species that observers on <a href="https://www.inaturalist.org/">iNaturalist</a> have recorded in the place, counting research-grade observations only. By default it covers mammals, reptiles, amphibians and birds. Birds are included on purpose: without them a bird photo would be forced into a mammal or a reptile.</p>
+      <p>iNaturalist and the model sometimes spell a species differently. WildID looks such names up once in the GBIF Backbone Taxonomy and remembers the result. A list is fetched once, stored on your computer and used offline from then on.</p>
+
+      <h2>Fetching a list in Lightroom</h2>
+      <p>Choose <strong>Library → Plug-in Extras → WildID: prefetch place list…</strong> and fill in the place:</p>
+      <dl class="options">
+        <div><dt>Country</dt><dd>The country name in English, for example <code>Kenya</code>.</dd></div>
+        <div><dt>Region</dt><dd>Optional. A state or province inside the country, for example <code>Mato Grosso</code> in Brazil.</dd></div>
+        <div><dt>Place id</dt><dd>Optional, for any other iNaturalist place such as a national park. The id is the number after <code>place_id=</code> in the address bar when you filter observations by that place on inaturalist.org.</dd></div>
+        <div><dt>Taxa</dt><dd>The groups to include. The default is <code>Mammalia,Reptilia,Amphibia,Aves</code>.</dd></div>
+        <div><dt>Refresh even if already cached</dt><dd>Fetches the list again, for example before a new trip to the same country.</dd></div>
+      </dl>
+      <p>Fetching is the only step that uses the internet after the setup. A large country can take a few minutes.</p>
+
+      <h2>Using a list when you identify</h2>
+      <p>The <strong>Candidates</strong> menu in the Identify dialog has three settings:</p>
+      <ul>
+        <li><strong>The full TreeOfLife:</strong> no list. Every name the model knows is a candidate.</li>
+        <li><strong>A prefetched place:</strong> type the country, the region or the place id exactly as you fetched it.</li>
+        <li><strong>Each photo&rsquo;s GPS position:</strong> see below.</li>
+      </ul>
+      <p>Next to the taxa you can choose between &ldquo;species list&rdquo; and &ldquo;whole genera&rdquo;. Whole genera keeps every species of each genus on the list. It is meant for places with few iNaturalist observations and it makes the candidate list several times longer.</p>
+
+      <h2>A list for every photo, from GPS</h2>
+      <p>If your photos carry a position, WildID can pick the country or the region for each photo by itself. It uses the position stored in the Lightroom catalog, so positions you set in the Map module count as well as those from the camera.</p>
+      <ol>
+        <li>Select the photos and open <strong>WildID: prefetch place list…</strong></li>
+        <li>Under <strong>For</strong>, choose the selected photos&rsquo; GPS positions, pick the GPS level, country or region, and click Fetch. WildID looks up one position for each area of about 28 by 28 km and fetches the lists for the places it finds.</li>
+        <li>In the Identify dialog, set Candidates to each photo&rsquo;s GPS position and choose the same GPS level.</li>
+      </ol>
+      <p>A photo without a position is identified without a list and is not flagged. A photo in an area you did not prefetch is also identified without a list, and it is flagged for review. The summary counts both.</p>
+
+      <h2>The safety net</h2>
+      <p>A list can hide the right answer. For that reason WildID also asks the model for its answer without the list. If that answer is not on the list, the photo is flagged for review.</p>
+
+      <h2>Limits</h2>
+      <ul>
+        <li>Animals in zoos and parks, and escaped or introduced species, are usually missing from the list of the country they were photographed in.</li>
+        <li>Rare visitors and species that few people record on iNaturalist can be missing as well.</li>
+        <li>A list is as good as the observations behind it. For well-visited countries it is thorough, for remote regions it can be thin. Whole genera helps there.</li>
+      </ul>
+
+      <h2>On the command line</h2>
+      <pre><code>uv run wildid prefetch --country Kenya
+uv run wildid prefetch --country Brazil --region "Mato Grosso"
+uv run wildid photos/ --country Kenya
+uv run wildid prefetch --gps-from photos/
+uv run wildid photos/ --geo-auto</code></pre>
+    </div>
+    <p class="pager"><a href="accuracy.html">Previous: When a name is wrong</a><a href="lightroom.html">Next: What it writes to Lightroom</a></p>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="index.html#windows-setup">Windows setup</a></li>
+          <li><a href="index.html#macos-setup">macOS setup</a></li>
+          <li><a href="index.html#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

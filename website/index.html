@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WildID: AI species identification for Lightroom Classic</title>
+<meta name="description" content="Free, open-source plugin that names the animals in your wildlife photos inside Lightroom Classic. BioCLIP 2 runs on your own GPU. For Windows, macOS and Linux.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta property="og:description" content="Free, open-source plugin that names the animals in your wildlife photos inside Lightroom Classic. BioCLIP 2 runs on your own GPU. For Windows, macOS and Linux.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"WildID","description":"Free, open-source plugin that names the animals in your wildlife photos inside Lightroom Classic. BioCLIP 2 runs on your own GPU. For Windows, macOS and Linux.","url":"https://WILDID-SITE-URL.invalid/","image":"https://WILDID-SITE-URL.invalid/img/og-image.png","applicationCategory":"MultimediaApplication","applicationSubCategory":"Plug-in for Adobe Lightroom Classic","operatingSystem":"Windows 11, macOS 14 or newer on Apple Silicon, Linux","softwareRequirements":"Adobe Lightroom Classic 15 or newer for the plug-in. On a PC an NVIDIA graphics card is recommended. A Mac needs Apple Silicon.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"isAccessibleForFree":true,"license":"https://www.gnu.org/licenses/agpl-3.0.html","downloadUrl":"https://github.com/Trogious/wildid/releases/latest","sameAs":"https://github.com/Trogious/wildid"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="#download">Download</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#windows-setup">Windows setup</a></li>
+        <li><a href="#macos-setup">macOS setup</a></li>
+        <li><a href="#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Free and open source · Windows · macOS · Linux</p>
+      <h1>Species names for your wildlife photos, inside Lightroom Classic</h1>
+      <p class="lede">WildID identifies the animals in your photos and writes the result where you already work, as keywords and collections in Lightroom Classic. Select a shoot, click Identify, and each photo gets its scientific and common name and a place in a class, genus and species tree. The recognition runs on your own computer with BioCLIP&nbsp;2, an open vision model for biology, so no photo is uploaded and there is no subscription. Answers the model is unsure about are flagged for review. WildID is built for a strong NVIDIA graphics card or a Mac with Apple Silicon, and also runs, more slowly, on a processor alone.</p>
+    </div>
+    <figure class="plate">
+      <div class="plate-head"><span>DSC04512.ARW</span><span>Brazil › Mato Grosso · 412 candidate species</span></div>
+      <ol>
+        <li><span class="rank">1</span><span class="taxon"><i class="binomial">Panthera onca</i><span class="common">Jaguar</span></span><span class="score">0.962</span><span class="bar" aria-hidden="true"><span style="--v:0.962"></span></span></li>
+        <li><span class="rank">2</span><span class="taxon"><i class="binomial">Puma concolor</i><span class="common">Puma</span></span><span class="score">0.021</span><span class="bar" aria-hidden="true"><span style="--v:0.021"></span></span></li>
+        <li><span class="rank">3</span><span class="taxon"><i class="binomial">Leopardus pardalis</i><span class="common">Ocelot</span></span><span class="score">0.009</span><span class="bar" aria-hidden="true"><span style="--v:0.009"></span></span></li>
+      </ol>
+      <dl class="paths">
+        <div><dt>Keyword</dt><dd>WildID › Mammalia › Panthera › Panthera onca</dd></div>
+        <div><dt>Collection</dt><dd>WildID / Mammalia / Panthera / Panthera onca — Jaguar</dd></div>
+      </dl>
+      <figcaption>Example result for one photo. A score ranks the candidates against each other. It is not the probability that the name is right.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="downloads" id="download" aria-labelledby="download-h">
+  <div class="wrap">
+    <h2 id="download-h" class="visually-hidden">Download WildID</h2>
+    <div class="os-grid">
+      <article class="os-card">
+        <h3><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 4h8v7.5H3zM13 4h8v7.5h-8zM3 12.5h8V20H3zM13 12.5h8V20h-8z"/></svg>Windows</h3>
+        <p>Installer with the Lightroom Classic plugin.</p>
+        <p class="meta">Windows 11, 64-bit · Lightroom Classic 15 or newer · NVIDIA GPU recommended</p>
+        <p class="actions"><a class="btn btn-primary" href="https://github.com/Trogious/wildid/releases/latest">Download for Windows</a></p>
+        <p class="also"><a href="#windows-setup">Setup guide for Lightroom Classic</a></p>
+      </article>
+      <article class="os-card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M2.5 18.5h19"/></svg>macOS</h3>
+        <p>Download with the Lightroom Classic plugin, installed from Terminal.</p>
+        <p class="meta">Apple Silicon · macOS 14 or newer · Lightroom Classic 15 or newer · tested on one Mac, an M5 Pro</p>
+        <p class="actions"><a class="btn btn-primary" href="https://github.com/Trogious/wildid/releases/latest">Download for macOS</a></p>
+        <p class="also"><a href="#macos-setup">Setup guide for Lightroom Classic</a></p>
+      </article>
+      <article class="os-card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M7 9l3 3-3 3M12.5 15H17"/></svg>Linux</h3>
+        <p>Command-line tool, installed from source.</p>
+        <p class="meta">x86-64 · NVIDIA GPU recommended · Lightroom Classic does not exist for Linux</p>
+        <p class="actions"><a class="btn btn-secondary" href="#linux-setup">Linux setup</a></p>
+        <p class="also"><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how-it-works" aria-labelledby="how-h">
+  <div class="wrap">
+    <h2 id="how-h">How it works</h2>
+    <div class="how-grid">
+      <div class="prose small">
+        <p>WildID has two parts. A plugin inside Lightroom Classic adds the menu entries and writes results into your catalog. An engine outside Lightroom does the recognition. The plugin starts it when you need it, it keeps the model loaded while you work, and it shuts down after 15 quiet minutes so the graphics card is free again.</p>
+        <p>When you click Identify, the plugin passes the engine the file paths of the selected photos. For RAW files the engine reads the preview that the camera embedded in the file, so nothing is developed or converted. MegaDetector, an open animal detector, finds the animal and crops to it, which helps most with small and distant subjects. BioCLIP&nbsp;2 then compares the crop with the names of 867,455 taxa from the TreeOfLife-200M dataset and ranks them. If you give WildID a place, it only considers species that iNaturalist observers have recorded there, about 1,400 for Kenya.</p>
+        <p>The best match becomes a keyword hierarchy of class, genus and species, with the common name stored as a synonym, and the photo is filed into the matching collection. WildID flags a photo for review when the best score is low, or when the answer without the place list falls outside that list. It never changes your photo files and it uploads nothing.</p>
+        <p>The default model is BioCLIP&nbsp;2, published by researchers at the Imageomics Institute. BioCLIP&nbsp;2.5, a larger model from the same team, can be chosen for each run. WildID uses both exactly as published.</p>
+      </div>
+      <ol class="pipeline" aria-label="The steps of one identification">
+        <li><span><b>Lightroom plugin</b>sends the file paths of the selected photos</span></li>
+        <li><span><b>Local engine</b>reads the preview embedded in each file</span></li>
+        <li><span><b>MegaDetector</b>finds the animal and crops to it</span></li>
+        <li><span><b>BioCLIP 2</b>ranks 867,455 names, or only those on your place list</span></li>
+        <li><span><b>Back in Lightroom</b>keywords, collections, and a review flag when unsure</span></li>
+      </ol>
+    </div>
+
+    <div class="notice">
+      <span class="tag">Please read this</span>
+      <h3>WildID does not decide what is in your photo</h3>
+      <p>Every identification comes from BioCLIP, a research model. WildID prepares the photo, asks the model and files its answer. It has no opinion of its own and it does not correct the model.</p>
+      <p>When a species name is wrong, the cause is almost always one of two things. The first is a limit of the model: two species that look alike, an animal that is small or half hidden, a species the model has seen little of. The second is a setting: no place list, the wrong place, the crop switched off, or BioCLIP&nbsp;2.5 used on reptiles, which it does not know. A fault in WildID itself is the least likely explanation.</p>
+      <p>Treat every name as a suggestion. Look through the review collection, and check an identification before you publish it or use it as a record. <a href="accuracy.html">What to check when a name is wrong</a></p>
+    </div>
+
+    <div class="prose small">
+      <h3>Built for strong graphics cards</h3>
+      <p>WildID is at its best on a powerful NVIDIA GPU with plenty of memory. It has been tested on exactly one card, an NVIDIA GeForce RTX 4090 with 24 GB. On that card the engine identifies about 10 photos per second from 61-megapixel RAW files with the crop switched on, and it holds about 7 GB of graphics memory with BioCLIP&nbsp;2 or about 10 GB with BioCLIP&nbsp;2.5. Smaller and older NVIDIA cards should work as long as the model fits into their memory, but nobody has tried them yet.</p>
+      <p>On a Mac, WildID uses the graphics processor of Apple Silicon. It has been tested on exactly one Mac, a MacBook Pro with an M5 Pro chip and 48 GB of memory. On the command line that Mac identifies about 16 photos per second from RAW files with the crop switched on, about half the speed of the RTX 4090 on the same files, and the engine holds about 12 GB of memory with BioCLIP&nbsp;2 or about 13 GB with BioCLIP&nbsp;2.5. No other Mac has been tried.</p>
+      <p>Without a suitable graphics card WildID runs on the processor alone. That works, and it is slower: expect seconds per photo where the RTX 4090 needs a fraction of a second.</p>
+    </div>
+    <dl class="stats">
+      <div><dt>RTX 4090, M5 Pro</dt><dd>the only graphics card and the only Mac tested so far</dd></div>
+      <div><dt>≈ 10 photos/s</dt><dd>61 MP RAW files with the crop on, measured at the engine on the RTX 4090</dd></div>
+      <div><dt>≈ 7 GB VRAM</dt><dd>in use with BioCLIP 2 on the RTX 4090, about 10 GB with BioCLIP 2.5; about 12 and 13 GB of memory on the Mac</dd></div>
+      <div><dt>CPU only</dt><dd>works without a graphics card, at seconds per photo</dd></div>
+    </dl>
+
+    <div class="prose small">
+      <h3>Free and open source</h3>
+      <p>WildID is free software under the AGPL-3.0 licence. There is no account, no licence key, no telemetry and no paid tier. The source code and every release are on <a href="https://github.com/Trogious/wildid">GitHub</a>, and the BioCLIP models are open as well.</p>
+    </div>
+
+    <figure class="shot shot-wide">
+      <img src="img/screenshots/lightroom-after-run.png" width="1600" height="1000" loading="lazy" decoding="async" alt="Lightroom Classic after a WildID run: the WildID collection tree with class, genus and species, and the species keywords on the selected photo">
+      <figcaption>Lightroom Classic after a run: photos filed by class, genus and species, with the names as keywords.</figcaption>
+    </figure>
+
+    <h3 id="details-h">More detail, one click away</h3>
+    <ul class="more-grid" aria-labelledby="details-h">
+      <li><a class="more-card" href="models.html"><h4>Models</h4><p>BioCLIP 2 and BioCLIP 2.5: what they are, how they differ and which one to pick.</p></a></li>
+      <li><a class="more-card" href="hardware.html"><h4>GPU, VRAM and speed</h4><p>Measured numbers from the RTX 4090 and from one Mac, memory per model, and what to expect on a CPU.</p></a></li>
+      <li><a class="more-card" href="accuracy.html"><h4>When a name is wrong</h4><p>Why misidentifications happen, how often in our tests, and the settings that reduce them.</p></a></li>
+      <li><a class="more-card" href="places.html"><h4>Place lists and GPS</h4><p>Limit the candidates to species recorded where you took the photo.</p></a></li>
+      <li><a class="more-card" href="lightroom.html"><h4>What it writes to Lightroom</h4><p>Keywords, collections, metadata fields, re-runs and the review workflow.</p></a></li>
+      <li><a class="more-card" href="privacy.html"><h4>Offline and privacy</h4><p>What is downloaded once, and why your photos never leave your computer.</p></a></li>
+      <li><a class="more-card" href="command-line.html"><h4>Command line</h4><p>Whole folders, JSON output and keyword sidecars without Lightroom.</p></a></li>
+      <li><a class="more-card" href="licence.html"><h4>Licence and credits</h4><p>The AGPL-3.0 licence, and the models and data WildID builds on.</p></a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="windows-setup" aria-labelledby="windows-h">
+  <div class="wrap">
+    <h2 id="windows-h">Install on Windows, for Lightroom Classic</h2>
+    <p class="section-lede">This guide is for photographers who want WildID inside Lightroom Classic. You need no Python and no command line. One text window appears during setup. It asks a few questions and downloads the model.</p>
+
+    <div class="need">
+      <h3>Before you start</h3>
+      <ul>
+        <li><strong>Windows 11, 64-bit.</strong> Windows 10 has not been tested.</li>
+        <li><strong>Adobe Lightroom Classic 15 or newer.</strong> The cloud-based Lightroom, the one without &ldquo;Classic&rdquo; in its name, cannot load this kind of plugin.</li>
+        <li><strong>An NVIDIA graphics card with a current driver</strong> is strongly recommended. Without one WildID still works, on the processor, at seconds per photo.</li>
+        <li><strong>Disk space:</strong> about 10 GB for the default setup, about 18 GB with both models.</li>
+        <li><strong>Internet</strong> during the installation and whenever you fetch a place list. Identifying photos works offline.</li>
+      </ul>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Download the installer</h3>
+        <p>Get <code>WildID-Setup-&lt;version&gt;.exe</code> from the latest release. The file is small, about 20 MB, because the large parts are downloaded during the installation.</p>
+        <p><a class="btn btn-primary" href="https://github.com/Trogious/wildid/releases/latest">Download for Windows</a></p>
+        <details>
+          <summary>Check the download (optional)</summary>
+          <p>Each release lists the SHA-256 checksum of the installer in <code>SHA256SUMS.txt</code>. To compare, open PowerShell in your Downloads folder and run:</p>
+          <pre><code>Get-FileHash .\WildID-Setup-*.exe -Algorithm SHA256</code></pre>
+          <p>The long value it prints must be the same as the one in <code>SHA256SUMS.txt</code>. Upper and lower case do not matter.</p>
+        </details>
+      </li>
+
+      <li>
+        <h3>Start it and pass the Windows warning</h3>
+        <p>WildID is not code-signed yet, so Windows does not know the publisher. When you start the installer, a blue window says &ldquo;Windows protected your PC&rdquo;. Click <strong>More info</strong>, then <strong>Run anyway</strong>. Your browser may also ask whether you want to keep the file when the download finishes.</p>
+        <p>The installer does not ask for administrator rights. It installs for your Windows account only, into <code>%LOCALAPPDATA%\Programs\WildID</code>.</p>
+        <figure class="shot">
+          <img src="img/screenshots/win-smartscreen.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The Windows SmartScreen window with More info opened and the Run anyway button">
+          <figcaption>Click More info, then Run anyway.</figcaption>
+        </figure>
+      </li>
+
+      <li>
+        <h3>Let it install</h3>
+        <p>Click <strong>Install</strong>. The installer copies WildID and the Lightroom plugin, then downloads the software WildID runs on: Python and PyTorch, several GB in total. A black text window shows the progress of that download. Leave it alone until it closes by itself.</p>
+        <figure class="shot">
+          <img src="img/screenshots/win-installer.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The WildID installer while it installs the Python environment, with the text window that shows the download progress">
+          <figcaption>The text window closes by itself when the download is complete.</figcaption>
+        </figure>
+        <p>On the last page keep <strong>Run the WildID setup wizard now</strong> ticked and click <strong>Finish</strong>.</p>
+        <figure class="shot">
+          <img src="img/screenshots/win-installer-finish.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The last page of the WildID installer with the option Run the WildID setup wizard now ticked">
+          <figcaption>Keep the setup wizard ticked.</figcaption>
+        </figure>
+      </li>
+
+      <li>
+        <h3>Answer the setup wizard</h3>
+        <p>A text window opens and asks a few questions. Type an answer and press <kbd>Enter</kbd>. Pressing <kbd>Enter</kbd> on its own accepts the suggestion shown in square brackets.</p>
+        <dl class="options">
+          <div><dt>Hugging Face token</dt><dd>Press <kbd>Enter</kbd> to skip it. The explanation is below.</dd></div>
+          <div><dt>Model to download</dt><dd>Type <code>all</code> to get both models, about 12 GB, so that you can choose one for each run in Lightroom. Press <kbd>Enter</kbd> for BioCLIP&nbsp;2 only, 4.5 GB.</dd></div>
+          <div><dt>MegaDetector crop stage</dt><dd>Press <kbd>Enter</kbd> for yes, 52 MB. The crop is switched on by default in Lightroom.</dd></div>
+          <div><dt>SpeciesNet</dt><dd>Optional, 209 MB. Type <code>y</code> if you want a second model&rsquo;s verdict on mammals.</dd></div>
+          <div><dt>Species list for a destination</dt><dd>Press <kbd>Enter</kbd> for yes, then type the country where you took your photos, for example <code>Kenya</code>, and a region inside it if you want one. The question comes back so that you can add more countries. Answer <code>n</code> when you are done.</dd></div>
+        </dl>
+        <figure class="shot">
+          <img src="img/screenshots/win-wizard-questions.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The WildID setup wizard in a text window with its questions answered: token skipped, model all, crop stage yes, one destination country">
+          <figcaption>The wizard&rsquo;s questions with typical answers.</figcaption>
+        </figure>
+        <p>The downloads start after the last answer. When they finish, the wizard tests itself with the network switched off and prints <strong>Setup complete</strong>. Press any key to close the window.</p>
+        <figure class="shot">
+          <img src="img/screenshots/win-wizard-done.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The WildID setup wizard after the downloads, showing the offline check and the line Setup complete">
+          <figcaption>Setup complete.</figcaption>
+        </figure>
+        <p>To run the wizard again later, for another model or another country, open the Start menu and choose <strong>WildID Setup</strong>.</p>
+
+        <div class="aside-box" id="hugging-face-token">
+        <h4>What the Hugging Face token is for</h4>
+        <p>Hugging Face is the website that hosts the BioCLIP model files, and the wizard downloads them from there. The files are public. You need no account and no token, so leaving the question empty is the normal choice.</p>
+        <p>A token is a personal key that tells Hugging Face which account a download belongs to. It helps in one situation: when Hugging Face slows down or refuses downloads that come without an account, which can happen on a busy or shared internet connection. If a download stops with a message about rate limits or the number 429, run the wizard again and give it a token.</p>
+        <details>
+          <summary>Create a token, if you need one</summary>
+          <ol>
+            <li>Create a free account at <a href="https://huggingface.co/join">huggingface.co/join</a> and confirm your e-mail address.</li>
+            <li>Open <a href="https://huggingface.co/settings/tokens">Settings, Access Tokens</a> and choose <strong>Create new token</strong>.</li>
+            <li>Pick the token type <strong>Read</strong>, give it any name, for example WildID, and create it.</li>
+            <li>Copy the token. It starts with <code>hf_</code>.</li>
+            <li>Start <strong>WildID Setup</strong> from the Start menu. At the token question, right-click in the window to paste, then press <kbd>Enter</kbd>. Nothing appears while you paste. That is intended.</li>
+          </ol>
+          <p>The token is saved in your Windows user profile and is sent to huggingface.co only. A read token cannot change anything in your account, and you can delete it on the same Hugging Face page at any time.</p>
+        </details>
+        </div>
+      </li>
+
+      <li>
+        <h3>Open Lightroom Classic</h3>
+        <p>Start Lightroom Classic. If it was open during the installation, close it and start it again. The installer has already put the plugin where Lightroom loads it by itself, so there is nothing to add by hand.</p>
+        <p>To check, open <strong>File → Plug-in Manager</strong>. <strong>WildID</strong> should be in the list on the left, shown as installed and running.</p>
+        <figure class="shot">
+          <img src="img/screenshots/lr-plugin-manager.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The Lightroom Classic Plug-in Manager with WildID in the list, installed and running">
+          <figcaption>WildID in the Plug-in Manager.</figcaption>
+        </figure>
+      </li>
+
+      <li id="first-photos">
+        <h3>Identify your first photos</h3>
+        <p>In the Library module, select a few photos of animals. Ten to twenty are enough for a first try. Then choose <strong>Library → Plug-in Extras → Identify species with WildID…</strong></p>
+        <figure class="shot">
+          <img src="img/screenshots/lr-menu.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The Library menu of Lightroom Classic with Plug-in Extras open and the five WildID entries">
+          <figcaption>The WildID entries under Library → Plug-in Extras. The same entries are under File → Plug-in Extras.</figcaption>
+        </figure>
+        <p>A dialog opens. These are the settings that matter the first time:</p>
+        <dl class="options">
+          <div><dt>Model</dt><dd><strong>bioclip-2</strong> handles everything, reptiles included. <strong>bioclip-2.5</strong> was a little more accurate on our mammal photos and does not know reptiles at all. <a href="models.html">More about the models</a></dd></div>
+          <div><dt>Candidates</dt><dd>Leave it on &ldquo;the full TreeOfLife&rdquo; for a first try, or choose &ldquo;a prefetched place&rdquo; and type the country you gave the wizard.</dd></div>
+          <div><dt>Detector crop</dt><dd>Leave it on. It finds the animal so that the model looks at that part of the frame.</dd></div>
+          <div><dt>Review below score</dt><dd>Photos whose best score is below this value are flagged for review. The default is 0.5.</dd></div>
+          <div><dt>File photos into species collections under</dt><dd>The collection set WildID fills. The default is <code>WildID</code>.</dd></div>
+          <div><dt>Dry run</dt><dd>Counts what would happen without writing anything into the catalog.</dd></div>
+        </dl>
+        <figure class="shot">
+          <img src="img/screenshots/lr-identify-dialog.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The WildID identify dialog in Lightroom Classic with the model choice, the candidates menu, the crop option and the collection set">
+          <figcaption>The Identify dialog.</figcaption>
+        </figure>
+        <p>Click <strong>Identify</strong>. The first run of a session starts the engine and loads the model. That took about ten seconds on the test computer and can take longer on a slower disk. A progress bar in the top-left corner of Lightroom then counts through the photos. You can cancel at any time, and photos that were already processed keep their results.</p>
+        <p>When the run ends, a summary tells you how many photos were identified, how many were flagged for review and how many failed.</p>
+        <figure class="shot">
+          <img src="img/screenshots/lr-summary.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The WildID summary after a run, with the number of photos identified, flagged for review and failed">
+          <figcaption>The summary after a run.</figcaption>
+        </figure>
+      </li>
+
+      <li>
+        <h3>See what changed</h3>
+        <ul>
+          <li><strong>Keyword List:</strong> a branch such as <code>WildID › Mammalia › Panthera › Panthera onca</code>. The common name, here Jaguar, is stored as a synonym, so a search for &ldquo;jaguar&rdquo; finds the photo. Photos with an animal also get the plain keyword <code>animals</code>, and <code>wildlife</code> unless the species is a domestic one.</li>
+          <li><strong>Collections:</strong> a set named <code>WildID</code> with a set for each class, a set for each genus and a collection for each species, for example <code>WildID / Mammalia / Panthera / Panthera onca — Jaguar</code>. Photos the model was unsure about are also in <code>WildID / _review</code>.</li>
+          <li><strong>Metadata panel:</strong> choose All Plug-in Metadata to see the species, the common name, the class, the score, the status and the model for each photo.</li>
+        </ul>
+        <figure class="shot">
+          <img src="img/screenshots/lr-results-panels.png" width="1600" height="1000" loading="lazy" decoding="async" alt="Lightroom Classic panels after a run: the WildID collection tree, the Keyword List with the WildID branch and the WildID fields in the Metadata panel">
+          <figcaption>Collections, keywords and metadata written by WildID.</figcaption>
+        </figure>
+        <p><a href="lightroom.html">Everything WildID writes, and what it never touches</a></p>
+      </li>
+
+      <li>
+        <h3>Add a place list</h3>
+        <p>A place list and the crop are the two settings that improve the answers most. A list limits the candidates to the species recorded in the country or region where you took the photos.</p>
+        <p>Choose <strong>Library → Plug-in Extras → WildID: prefetch place list…</strong>, type the country, and a region if you want one, then click <strong>Fetch</strong>. This is the only step that uses the internet after the setup. In the Identify dialog, set <strong>Candidates</strong> to &ldquo;a prefetched place&rdquo; and type the same country.</p>
+        <figure class="shot">
+          <img src="img/screenshots/lr-prefetch-dialog.png" width="1600" height="1000" loading="lazy" decoding="async" alt="The WildID prefetch place list dialog with a country typed in and the Fetch button">
+          <figcaption>Fetching the species list for a country.</figcaption>
+        </figure>
+        <p><a href="places.html">Place lists, regions and GPS positions in detail</a></p>
+      </li>
+
+      <li>
+        <h3>Review the flagged photos</h3>
+        <p>Open the collection <code>WildID / _review</code>. For each photo, decide whether the name is right, and correct it by hand where it is not. When you are done, select the photos and choose <strong>Library → Plug-in Extras → WildID: mark as reviewed</strong>. The photos leave the review collection and lose the review keyword.</p>
+        <p>If you correct a name by hand, put your own keyword outside the <code>WildID</code> branch. A later run replaces everything under <code>WildID</code> on the photos you run it on.</p>
+      </li>
+    </ol>
+
+    <div class="prose">
+      <h3>Everyday use</h3>
+      <p>You do not start anything by hand. The plugin starts the engine when you run Identify, and the engine stops by itself after 15 minutes without work, which frees the graphics card for other programs. <strong>WildID: server status…</strong> in the same menu shows whether it is running and lets you stop it at once.</p>
+
+      <h3>Updating and uninstalling</h3>
+      <p>To update, download the newer installer and run it. It replaces the engine and the plugin together and keeps the downloaded models and place lists. Restart Lightroom afterwards.</p>
+      <p>To uninstall, open Windows <strong>Settings → Apps → Installed apps</strong>, find WildID and choose Uninstall. The models and place lists stay on the disk so that a later reinstall is quick. To remove them as well, delete the folders <code>%LOCALAPPDATA%\wildid</code> and <code>%USERPROFILE%\.cache\huggingface</code>. Other AI programs also use the second folder, so check it before you delete it.</p>
+
+      <h3 id="windows-trouble">If something goes wrong</h3>
+      <details>
+        <summary>WildID is not in the Plug-in Manager</summary>
+        <p>Restart Lightroom Classic. If WildID is still missing, check that the folder <code>%APPDATA%\Adobe\Lightroom\Modules\wildid.lrplugin</code> exists. You can also add that folder by hand with the Add button in the Plug-in Manager. If the Plug-in Manager says the plugin needs a newer version, update Lightroom Classic to version 15 or later.</p>
+      </details>
+      <details>
+        <summary>The run stops with a message that names &ldquo;wildid prefetch&rdquo;</summary>
+        <p>A part you selected in the dialog was not downloaded: the second model, the crop stage or SpeciesNet. Open the Start menu, run <strong>WildID Setup</strong> again and choose that part.</p>
+      </details>
+      <details>
+        <summary>The message says a place is &ldquo;not in the geo cache&rdquo;</summary>
+        <p>The species list for that place has not been fetched yet. Use <strong>WildID: prefetch place list…</strong> first, with the same spelling of the country and region.</p>
+      </details>
+      <details>
+        <summary>The engine does not start</summary>
+        <p>Open <strong>WildID: server status…</strong> and choose Start server, or start <strong>WildID Server</strong> from the Start menu. If that fails, run <strong>WildID Setup</strong> once more. It checks the installation and the downloads again.</p>
+      </details>
+      <details>
+        <summary>Lightroom reports that the graphics card is out of memory, or everything becomes very slow</summary>
+        <p>Choose bioclip-2, untick &ldquo;Keep both models loaded&rdquo; and close other programs that use the graphics card. <a href="hardware.html">How much graphics memory each model needs</a></p>
+      </details>
+      <details>
+        <summary>Some photos were skipped or failed</summary>
+        <p>WildID skips virtual copies, videos and photos whose original file is offline and has no Smart Preview. It reads JPEG and the common RAW formats: ARW, NEF, CR2, CR3, ORF, RAF, RW2 and DNG. Other file types can fail, and the summary lists them.</p>
+      </details>
+      <details>
+        <summary>A black window flashes when the engine starts</summary>
+        <p>That is expected. The engine then runs without a window.</p>
+      </details>
+      <p>Wrong species names are a different matter. They come from the model and the settings, as explained under <a href="accuracy.html">When a name is wrong</a>. For faults in WildID itself, <a href="https://github.com/Trogious/wildid/issues">report a problem on GitHub</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="macos-setup" aria-labelledby="macos-h">
+  <div class="wrap">
+    <h2 id="macos-h">Install on macOS, for Lightroom Classic</h2>
+    <p class="section-lede">This guide is for photographers who want WildID inside Lightroom Classic on a Mac. You need no Python, no Homebrew and no developer tools. You type one line into Terminal, and a setup wizard then asks a few questions and downloads the model.</p>
+
+    <div class="need">
+      <h3>Before you start</h3>
+      <ul>
+        <li><strong>A Mac with Apple Silicon</strong>, which means a chip of the M series, and <strong>macOS 14 or newer</strong>. Intel Macs are not supported.</li>
+        <li><strong>Adobe Lightroom Classic 15 or newer.</strong> The cloud-based Lightroom, the one without &ldquo;Classic&rdquo; in its name, cannot load this kind of plugin.</li>
+        <li><strong>Tested on one Mac:</strong> a MacBook Pro with an M5 Pro chip and 48 GB of memory, running macOS 26.5. No other Mac has been tried.</li>
+        <li><strong>Disk space:</strong> about 6 GB for the default setup, about 14 GB with both models.</li>
+        <li><strong>Internet</strong> during the installation and whenever you fetch a place list. Identifying photos works offline.</li>
+      </ul>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Download WildID</h3>
+        <p>Get <code>WildID-&lt;version&gt;-macos-arm64.zip</code> from the latest release. The file is small, about 23 MB, because the large parts are downloaded during the installation.</p>
+        <p><a class="btn btn-primary" href="https://github.com/Trogious/wildid/releases/latest">Download for macOS</a></p>
+        <details>
+          <summary>Check the download (optional)</summary>
+          <p>Each release lists the SHA-256 checksum of the zip in <code>SHA256SUMS.txt</code>. To compare, open Terminal and run:</p>
+          <pre><code>shasum -a 256 ~/Downloads/WildID-*-macos-arm64.zip</code></pre>
+          <p>The long value it prints must be the same as the one in <code>SHA256SUMS.txt</code>.</p>
+        </details>
+      </li>
+
+      <li>
+        <h3>Unzip it and start the installer from Terminal</h3>
+        <p>Double-click the zip in Finder, unless your browser has already unpacked it. You get a folder named <code>WildID-&lt;version&gt;-macos-arm64</code> in Downloads. Open Terminal, which is in Applications → Utilities, type the following line with the name of your folder, and press <kbd>Return</kbd>:</p>
+        <pre><code>bash ~/Downloads/WildID-&lt;version&gt;-macos-arm64/install.sh</code></pre>
+        <p>To avoid typing the path, type <code>bash</code> and a space, then drag the file <code>install.sh</code> from the folder into the Terminal window.</p>
+        <p>The word <code>bash</code> in front matters. WildID is not signed with an Apple developer certificate yet, so macOS refuses to start the installer when you double-click it. Handing the file to <code>bash</code>, a program that is part of macOS, is not subject to that check.</p>
+        <p>The installer does not ask for a password. It installs for your user account only, into <code>~/Library/Application Support/WildID</code>.</p>
+      </li>
+
+      <li>
+        <h3>Let it install</h3>
+        <p>The installer copies WildID and the Lightroom plugin, then downloads the software WildID runs on: its own Python and PyTorch, about 1.2 GB on disk. It never uses a Python that is already on your Mac. The Terminal window shows the progress.</p>
+        <p>At the end it asks whether to put the <code>wildid</code> commands on your PATH. Press <kbd>Return</kbd> for yes. That adds one line to the file <code>~/.zprofile</code>, so that the next step works by name. The last lines the installer prints show the command for the next step.</p>
+      </li>
+
+      <li>
+        <h3>Answer the setup wizard</h3>
+        <p>Open a <strong>new</strong> Terminal window, type <code>wildid-setup</code> and press <kbd>Return</kbd>. The wizard asks a few questions. Type an answer and press <kbd>Return</kbd>. Pressing <kbd>Return</kbd> on its own accepts the suggestion shown in square brackets.</p>
+        <dl class="options">
+          <div><dt>Hugging Face token</dt><dd>Press <kbd>Return</kbd> to skip it. <a href="#hugging-face-token">What the token is for</a></dd></div>
+          <div><dt>Model to download</dt><dd>Type <code>all</code> to get both models, about 12 GB, so that you can choose one for each run in Lightroom. Press <kbd>Return</kbd> for BioCLIP&nbsp;2 only, 4.5 GB.</dd></div>
+          <div><dt>MegaDetector crop stage</dt><dd>Press <kbd>Return</kbd> for yes, 52 MB. The crop is switched on by default in Lightroom.</dd></div>
+          <div><dt>SpeciesNet</dt><dd>Optional, 209 MB. Type <code>y</code> if you want a second model&rsquo;s verdict on mammals.</dd></div>
+          <div><dt>Species list for a destination</dt><dd>Press <kbd>Return</kbd> for yes, then type the country where you took your photos, for example <code>Kenya</code>, and a region inside it if you want one. The question comes back so that you can add more countries. Answer <code>n</code> when you are done.</dd></div>
+        </dl>
+        <p>The downloads start after the last answer. When they finish, the wizard tests itself with the network switched off and prints <strong>Setup complete</strong>.</p>
+        <p>To run the wizard again later, for another model or another country, type <code>wildid-setup</code> in Terminal again. If you ever paste a Hugging Face token, use <kbd>Command</kbd>+<kbd>V</kbd>. Nothing appears while you paste. That is intended.</p>
+      </li>
+
+      <li>
+        <h3>Open Lightroom Classic</h3>
+        <p>Start Lightroom Classic. If it was open during the installation, quit it and start it again. The installer has put the plugin where Lightroom loads it by itself.</p>
+        <p>To check, open <strong>File → Plug-in Manager</strong>. <strong>WildID</strong> should be in the list on the left, shown as installed and running. If it is missing, add it by hand: click <strong>Add</strong>, press <kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd>, paste the following path and confirm.</p>
+        <pre><code>~/Library/Application Support/Adobe/Lightroom/Modules/wildid.lrplugin</code></pre>
+      </li>
+
+      <li>
+        <h3>Identify your first photos</h3>
+        <p>From here on WildID works as it does on Windows. Continue with <a href="#first-photos">Identify your first photos</a> in the Windows guide and with the steps after it: what changes in the catalog, place lists and the review collection. The menus are in the same place, under <strong>Library → Plug-in Extras</strong>.</p>
+        <p>One line of the Identify dialog differs. On a Mac it names the chip and the memory WildID may use, for example &ldquo;Apple M5 Pro, unified memory: 40.2 GB usable&rdquo;, where Windows names the graphics card. <a href="hardware.html#mac">Speed and memory on a Mac</a></p>
+      </li>
+    </ol>
+
+    <div class="prose">
+      <h3>Everyday use</h3>
+      <p>You do not start anything by hand. The plugin starts the engine when you run Identify, and the engine stops by itself after 15 minutes without work, which gives the memory back to your other programs. <strong>WildID: server status…</strong> in the same menu shows whether it is running and lets you stop it at once.</p>
+
+      <h3>Updating and uninstalling</h3>
+      <p>To update, download the newer zip and run its <code>install.sh</code> the same way. It replaces the engine and the plugin together and keeps the downloaded models and place lists. Restart Lightroom afterwards.</p>
+      <p>To uninstall, run this line in Terminal:</p>
+      <pre><code>bash "$HOME/Library/Application Support/WildID/uninstall.sh"</code></pre>
+      <p>It removes WildID, the plugin and the line in <code>~/.zprofile</code>. The models and place lists stay on the disk so that a later reinstall is quick. To remove them as well, add <code>--purge</code> to the end of that line. Two folders of uv, the tool that fetched Python, stay in either case: <code>~/.local/share/uv</code> and <code>~/.cache/uv</code>. Delete them by hand if nothing else on your Mac uses uv.</p>
+
+      <h3>If something goes wrong</h3>
+      <details>
+        <summary>macOS says a WildID file &ldquo;cannot be opened&rdquo; or &ldquo;is damaged&rdquo;</summary>
+        <p>The mark that macOS puts on downloaded files is still on it. Remove it with this line in Terminal, then try again:</p>
+        <pre><code>xattr -dr com.apple.quarantine "$HOME/Library/Application Support/WildID"</code></pre>
+      </details>
+      <details>
+        <summary>The download of Python and PyTorch failed during the installation</summary>
+        <p>Usually the internet connection dropped. Everything else is in place. Run <code>wildid --version</code> in a new Terminal window once you are online. The command downloads what is missing.</p>
+      </details>
+      <details>
+        <summary>Terminal answers &ldquo;command not found&rdquo;</summary>
+        <p>Open a new Terminal window. The PATH line only counts for windows opened after the installation. If you answered no to the PATH question, use the full path, typed with the quotation marks:</p>
+        <pre><code>"$HOME/Library/Application Support/WildID/bin/wildid-setup"</code></pre>
+      </details>
+      <details>
+        <summary>Lightroom says the server did not start</summary>
+        <p>Start it by hand with a log file, then read what the file says:</p>
+        <pre><code>WILDID_SERVER_LOG=~/wildid-server.log wildid-server-start</code></pre>
+      </details>
+      <p>The file <code>~/Library/Application Support/WildID/install.log</code> records what the installer did. Problems inside Lightroom are the same as on Windows, so see <a href="#windows-trouble">If something goes wrong</a> in the Windows guide. Wrong species names come from the model and the settings, as explained under <a href="accuracy.html">When a name is wrong</a>. For faults in WildID itself, <a href="https://github.com/Trogious/wildid/issues">report a problem on GitHub</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="linux-setup" aria-labelledby="linux-h">
+  <div class="wrap">
+    <h2 id="linux-h">Install on Linux, for the command line</h2>
+    <p class="section-lede">Lightroom Classic does not exist for Linux, so here WildID is a command-line tool. It identifies whole folders and can write keyword sidecar files that Lightroom reads when you import the photos on another computer.</p>
+
+    <div class="need">
+      <h3>Before you start</h3>
+      <ul>
+        <li><strong>A 64-bit x86 Linux system</strong> with <code>git</code> and <code>curl</code>. WildID has been tested on one Linux machine, running Gentoo, with an RTX 4090.</li>
+        <li><strong>An NVIDIA graphics card with a driver that supports CUDA 13</strong> is strongly recommended. Run <code>nvidia-smi</code> and read the CUDA version in its header. Without such a card WildID runs on the processor, at seconds per photo.</li>
+        <li><strong>Disk space:</strong> about 10 GB for the default setup, about 18 GB with both models.</li>
+      </ul>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Install uv</h3>
+        <p>WildID uses <a href="https://docs.astral.sh/uv/">uv</a> to fetch the right Python version and every library it needs. Nothing is installed into your system Python. Skip this step if you already have uv.</p>
+        <pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
+      </li>
+      <li>
+        <h3>Get WildID</h3>
+        <pre><code>git clone https://github.com/Trogious/wildid.git
+cd wildid
+uv sync</code></pre>
+        <p><code>uv sync</code> creates the environment in the folder <code>.venv</code> and downloads about 5 GB, most of it PyTorch with CUDA.</p>
+      </li>
+      <li>
+        <h3>Download the model</h3>
+        <pre><code>uv run wildid prefetch --crop</code></pre>
+        <p>This downloads BioCLIP&nbsp;2 (4.5 GB) and the MegaDetector crop stage (52 MB), then checks that everything runs without a network. No Hugging Face account is needed. Add <code>--model all</code> for BioCLIP&nbsp;2.5 as well (7.3 GB) and <code>--second-opinion</code> for SpeciesNet (209 MB).</p>
+      </li>
+      <li>
+        <h3>Try it</h3>
+        <pre><code>uv run wildid tests/fixtures/bear.jpg</code></pre>
+        <p>The first line of the result should name <i class="sci">Ursus arctos</i>, the brown bear. Results are printed as one text block per photo, in this form:</p>
+        <pre><code>DSC04512.ARW
+  1. Panthera onca            Jaguar                 0.962
+  2. Puma concolor            Puma                   0.021
+  3. Leopardus pardalis       Ocelot                 0.009</code></pre>
+      </li>
+      <li>
+        <h3>Identify your photos</h3>
+        <p>Fetch the species list for the country once, then point WildID at a folder. Subfolders are included.</p>
+        <pre><code>uv run wildid prefetch --country Kenya
+uv run wildid ~/Pictures/kenya --crop --country Kenya</code></pre>
+        <p>To use the results in Lightroom Classic on another computer, write keyword sidecars next to your RAW files before you import them:</p>
+        <pre><code>uv run wildid /media/card/DCIM --crop --country Kenya --write-xmp</code></pre>
+        <p>To run WildID from any folder, name the project folder: <code>uv run --project ~/wildid wildid PATH</code>. <a href="command-line.html">More commands and options</a></p>
+      </li>
+    </ol>
+
+    <div class="prose">
+      <h3>Updating and removing</h3>
+      <p>To update, run <code>git pull</code> and <code>uv sync</code> in the <code>wildid</code> folder. To remove WildID, delete that folder and <code>~/.cache/wildid</code>. The BioCLIP models are in <code>~/.cache/huggingface</code>, which other AI programs also use.</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="#windows-setup">Windows setup</a></li>
+          <li><a href="#macos-setup">macOS setup</a></li>
+          <li><a href="#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

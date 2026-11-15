@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://WILDID-SITE-URL.invalid/sitemap.xml

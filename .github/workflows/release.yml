@@ -1,0 +1,315 @@
+# WildID release build (plan D3).
+#
+# Triggers (section D of docs/acceptance-lightroom.md passed 2026-10-25):
+#   - push of a tag v<version>: the tag decides the version. Every job first runs
+#     `installer/set_version.py` to rewrite pyproject.toml, src/wildid/__init__.py, Info.lua and
+#     the root entry of uv.lock to <version> (the repository itself is not changed; bump it with
+#     the same script when the sources should carry the number), then builds and PUBLISHES a
+#     GitHub Release on that tag: a proper release, not a draft (owner, 2026-11-15). A version
+#     with an aN, bN, rcN or .devN suffix is published as a pre-release. If a release or a draft
+#     for that tag exists already, the last step fails and says so; nothing is overwritten.
+#   - manual dispatch (Actions -> release -> "Run workflow"): builds the version pyproject.toml
+#     says; uploads artifacts only, unless `create_release` is ticked, which makes a DRAFT
+#     release to look at and publish by hand. Engine tests (ruff +
+#     pytest) run on every dispatch; there is no opt-out. Unsigned: signing is phase P of the
+#     plan (L14). The installer carries and installs the Lightroom plugin itself, so no separate
+#     plugin package is built (reintroduce one only if a hand-install route is ever needed).
+#   tests/test_release_workflow.py runs the release step against a stand-in for gh, once per
+#   trigger: keep it passing when the step changes.
+#
+# Two downloads come out of it (ADR 0008 for the second):
+#   - Windows: WildID-Setup-<version>.exe, built on windows-latest (Inno Setup).
+#   - macOS (Apple Silicon): WildID-<version>-macos-arm64.zip, plain files, built on
+#     ubuntu-latest by installer/macos/build.sh. The macos-15 job runs the engine tests on the
+#     lock's macOS wheels and then really installs that zip as the runner user (bash install.sh,
+#     a real `uv sync`), checks what landed, runs `wildid --version` and uninstalls. The install
+#     runs as on a photographer's Mac, which has no Homebrew and no Python: stock PATH, none of
+#     the job's variables, an empty uv cache, so the bundled uv downloads Python and every
+#     wheel itself. Hosted runners are not assumed to have a usable Metal device: the tests
+#     fake MPS.
+#     Both macOS jobs run on a tag and on a manual dispatch alike (owner, 2026-11-15; ADR 0008
+#     decision 7). Do not put a condition on them to save runner minutes:
+#     tests/test_installer_macos.py fails if one appears.
+# The release carries both and one SHA256SUMS.txt covering both.
+
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: "Create a draft GitHub Release (tag v<version> at this commit) with the artifacts"
+        type: boolean
+        default: false
+      uv_version:
+        description: "uv version bundled into the installer (keep in step with the dev box)"
+        type: string
+        default: "0.11.32"
+
+permissions:
+  contents: read
+
+jobs:
+  lua-tests:
+    name: plugin Lua tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Version from the tag (rewrites pyproject.toml, __init__.py, Info.lua, uv.lock)
+        if: github.ref_type == 'tag'
+        run: python3 installer/set_version.py "$GITHUB_REF_NAME"
+      - name: Lua 5.1 (Lightroom's dialect)
+        run: sudo apt-get update -q && sudo apt-get install -y -q lua5.1
+      - name: Syntax check + pure-Lua suites
+        run: |
+          for f in lrplugin/wildid.lrplugin/*.lua; do lua5.1 -e "assert(loadfile('$f'))"; done
+          lua5.1 lrplugin/tests/json_test.lua lrplugin/wildid.lrplugin
+          lua5.1 lrplugin/tests/collections_test.lua lrplugin/wildid.lrplugin
+          lua5.1 lrplugin/tests/models_test.lua lrplugin/wildid.lrplugin
+          lua5.1 lrplugin/tests/cleanup_test.lua lrplugin/wildid.lrplugin
+          lua5.1 lrplugin/tests/geo_test.lua lrplugin/wildid.lrplugin
+          lua5.1 lrplugin/tests/photos_test.lua lrplugin/wildid.lrplugin
+          lua5.1 lrplugin/tests/reviewed_test.lua lrplugin/wildid.lrplugin
+          lua5.1 lrplugin/tests/keywords_test.lua lrplugin/wildid.lrplugin
+
+  python-tests:
+    name: engine tests (ruff + pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Version from the tag (rewrites pyproject.toml, __init__.py, Info.lua, uv.lock)
+        if: github.ref_type == 'tag'
+        run: python3 installer/set_version.py "$GITHUB_REF_NAME"
+      - name: Free disk space (the locked CUDA wheels need several GB)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+      # setup-uv has published no moving major tag since v8: name a full release, here and in
+      # the macOS job.
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          version: ${{ inputs.uv_version || '0.11.32' }}
+          enable-cache: true
+      - name: uv sync --locked (pinned Python + locked wheels; a stale uv.lock fails here)
+        run: uv sync --locked
+      - name: Python comes from uv, not from the runner (python-preference in pyproject.toml)
+        run: |
+          dir="$(uv python dir)"
+          base="$(uv run python -c 'import sys; print(sys.base_prefix)')"
+          case "$base" in
+            "$dir"/*) echo "Python: $base" ;;
+            *) echo "not uv's own Python: $base (uv keeps its own under $dir)"; exit 1 ;;
+          esac
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+
+  build-windows:
+    name: Windows installer
+    runs-on: windows-latest
+    needs: [lua-tests]
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Version (from the pushed tag, else from pyproject.toml)
+        id: version
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            python installer/set_version.py $env:GITHUB_REF_NAME
+            if ($LASTEXITCODE -ne 0) { throw "set_version.py failed with exit code $LASTEXITCODE" }
+          }
+          $m = Select-String -Path pyproject.toml -Pattern '^version\s*=\s*"([^"]+)"'
+          $v = $m.Matches[0].Groups[1].Value
+          "version=$v" >> $env:GITHUB_OUTPUT
+          Write-Host "wildid $v"
+      - name: Inno Setup 6 (preinstalled on the runner image; install if missing)
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress }
+          if (-not (Test-Path $iscc)) { throw "ISCC.exe not found at $iscc" }
+          Write-Host "ISCC: $iscc"
+      - name: Build installer (build.ps1 - pinned uv.exe, payload staging, ISCC)
+        shell: pwsh
+        working-directory: installer/windows
+        run: ./build.ps1 -UvVersion "${{ inputs.uv_version || '0.11.32' }}"
+      - name: Stage installer + SHA256SUMS
+        shell: pwsh
+        run: |
+          $v = "${{ steps.version.outputs.version }}"
+          $exe = "installer/windows/output/WildID-Setup-$v.exe"
+          if (-not (Test-Path $exe)) { throw "installer not produced: $exe" }
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item $exe dist/
+          # LF line endings on purpose: `sha256sum -c` on Linux/Git Bash rejects a CRLF list.
+          $sums = Get-ChildItem dist | ForEach-Object {
+            "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name
+          }
+          [IO.File]::WriteAllText("$PWD/dist/SHA256SUMS.txt", (($sums -join "`n") + "`n"), [Text.Encoding]::ASCII)
+          Get-Content dist/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wildid-${{ steps.version.outputs.version }}-windows
+          path: dist/*
+          if-no-files-found: error
+          # GitHub's floor is 1 day (no hours); the owner asked for the shortest hold.
+          retention-days: 1
+
+  build-macos:
+    name: macOS download (zip)
+    # the zip is plain files, so it needs no Mac to build
+    runs-on: ubuntu-latest
+    needs: [lua-tests]
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Version (from the pushed tag, else from pyproject.toml)
+        id: version
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then python3 installer/set_version.py "$GITHUB_REF_NAME"; fi
+          v="$(sed -n 's/^version[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' pyproject.toml | head -n 1)"
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          echo "wildid $v"
+      - name: Build the zip (build.sh - pinned uv for Apple Silicon, payload staging, zip)
+        run: bash installer/macos/build.sh --uv-version "${{ inputs.uv_version || '0.11.32' }}"
+      - name: Stage zip + SHA256SUMS
+        run: |
+          v="${{ steps.version.outputs.version }}"
+          test -f "installer/macos/output/WildID-$v-macos-arm64.zip"
+          mkdir -p dist && cp installer/macos/output/* dist/
+          (cd dist && sha256sum -c SHA256SUMS.txt)
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wildid-${{ steps.version.outputs.version }}-macos-arm64
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 1
+
+  python-tests-macos:
+    name: engine tests + install smoke (macOS, Apple Silicon)
+    runs-on: macos-15
+    needs: [build-macos]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Version from the tag (rewrites pyproject.toml, __init__.py, Info.lua, uv.lock)
+        if: github.ref_type == 'tag'
+        run: python3 installer/set_version.py "$GITHUB_REF_NAME"
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          version: ${{ inputs.uv_version || '0.11.32' }}
+          enable-cache: true
+      - name: uv sync --locked (the lock's macOS arm64 wheels; a stale uv.lock fails here)
+        run: uv sync --locked
+      - name: Python comes from uv, not from the runner (python-preference in pyproject.toml)
+        run: |
+          dir="$(uv python dir)"
+          base="$(uv run python -c 'import sys; print(sys.base_prefix)')"
+          case "$base" in
+            "$dir"/*) echo "Python: $base" ;;
+            *) echo "not uv's own Python: $base (uv keeps its own under $dir)"; exit 1 ;;
+          esac
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+      - uses: actions/download-artifact@v8
+        with:
+          name: wildid-${{ needs.build-macos.outputs.version }}-macos-arm64
+          path: dist
+      - name: Install smoke (quarantined unzip, bash install.sh, wildid --version, uninstall)
+        run: |
+          set -euo pipefail
+          cd dist
+          shasum -a 256 -c SHA256SUMS.txt
+          unzip -q WildID-*-macos-arm64.zip
+          folder="$(ls -d WildID-*-macos-arm64)"
+          # A browser download is quarantined and everything unzipped from it inherits the flag.
+          # Give the folder the same flag, so the installer's xattr step is really exercised.
+          xattr -w -r com.apple.quarantine "0081;00000000;Safari;" "$folder"
+          # A photographer's Mac has no Homebrew, no Python and nothing of uv's. Run WildID's own
+          # scripts the same way: macOS's stock PATH, none of this job's variables (setup-uv's
+          # UV_CACHE_DIR would hand the installer the wheels the test step fetched), no uv
+          # cache and no uv-managed Python to start from.
+          bare() {
+            env -i HOME="$HOME" USER="$USER" LOGNAME="$USER" TMPDIR="${TMPDIR:-/tmp}" \
+              PATH=/usr/bin:/bin:/usr/sbin:/sbin "$@"
+          }
+          rm -rf "${HOME:?}/.cache/uv" "${HOME:?}/.local/share/uv"
+          bare bash "$folder/install.sh" --no-path
+          app="$HOME/Library/Application Support/WildID"
+          plugin="$HOME/Library/Application Support/Adobe/Lightroom/Modules/wildid.lrplugin"
+          test -x "$app/uv" && test -x "$app/bin/wildid" && test -x "$app/bin/wildid-setup"
+          test -x "$app/bin/wildid-server-start" && test -x "$app/app/.venv/bin/python"
+          test -f "$plugin/Info.lua"
+          python3 - "$plugin/engine.json" <<'PY'
+          import json, os, sys
+          d = json.load(open(sys.argv[1]))
+          assert os.access(d["start"], os.X_OK) and os.access(d["cli"], os.X_OK), d
+          assert d["cacheDir"].endswith("/Library/Caches/wildid"), d
+          PY
+          # The environment stands on the Python uv downloaded, not on the runner's Homebrew
+          # one, and the bundled uv fetched the wheels itself.
+          base="$("$app/app/.venv/bin/python" -c 'import sys; print(sys.base_prefix)')"
+          case "$base" in
+            "$HOME/.local/share/uv/python/"*) echo "Python: $base" ;;
+            *) echo "the environment is not on uv's own Python: $base"; exit 1 ;;
+          esac
+          test -d "$HOME/.cache/uv" && du -sh "$HOME/.cache/uv" "$HOME/.local/share/uv"
+          if xattr -r "$app" "$plugin" | grep -q com.apple.quarantine; then
+            echo "a quarantine attribute was left behind"; exit 1
+          fi
+          bare "$app/bin/wildid" --version
+          bare bash "$app/uninstall.sh" --yes
+          test ! -e "$app" && test ! -e "$plugin"
+
+  release:
+    name: GitHub Release
+    # runs only when asked, and only on top of green builds and green tests on every platform
+    if: ${{ !cancelled() && (inputs.create_release || startsWith(github.ref, 'refs/tags/v')) && needs.build-windows.result == 'success' && needs.build-macos.result == 'success' && needs.lua-tests.result == 'success' && needs.python-tests.result == 'success' && needs.python-tests-macos.result == 'success' }}
+    needs: [build-windows, build-macos, lua-tests, python-tests, python-tests-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v8
+        with:
+          name: wildid-${{ needs.build-windows.outputs.version }}-windows
+          path: dist/windows
+      - uses: actions/download-artifact@v8
+        with:
+          name: wildid-${{ needs.build-macos.outputs.version }}-macos-arm64
+          path: dist/macos
+      - name: Both downloads and one SHA256SUMS.txt covering both
+        run: |
+          mkdir release
+          mv dist/windows/WildID-Setup-*.exe dist/macos/WildID-*-macos-arm64.zip release/
+          cat dist/windows/SHA256SUMS.txt dist/macos/SHA256SUMS.txt > release/SHA256SUMS.txt
+          (cd release && sha256sum -c SHA256SUMS.txt && ls -l)
+      - name: gh release create (published for a pushed tag, a draft for a manual run)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build-windows.outputs.version }}
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then tag="$GITHUB_REF_NAME"; else tag="v$VERSION"; fi
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            # A pushed tag is the owner's word to release: publish, on that very tag. gh keeps
+            # the release a draft while the files upload and publishes it once all are there.
+            if state="$(gh release view "$tag" --json isDraft --jq 'if .isDraft then "draft" else "published release" end' 2>/dev/null)"; then
+              echo "::error::A $state for $tag exists already; nothing was changed. To replace it, delete it on the Releases page and re-run this job."
+              exit 1
+            fi
+            flags=(--verify-tag)
+            # aN, bN, rcN and .devN versions are pre-releases: GitHub never shows one as the
+            # latest release, which is where the website's download buttons point.
+            case "$VERSION" in
+              *a[0-9]* | *b[0-9]* | *rc[0-9]* | *.dev[0-9]*) flags+=(--prerelease) ;;
+            esac
+          else
+            # A run started by hand makes a draft to look at; publishing it stays a step by hand.
+            flags=(--draft --target "$GITHUB_SHA")
+          fi
+          gh release create "$tag" release/* "${flags[@]}" --generate-notes --title "WildID $VERSION"

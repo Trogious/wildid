@@ -1,0 +1,6 @@
+#!/bin/bash
+# First-run wizard: model download (a Hugging Face token is optional) and the offline check.
+# It asks questions, so it stays in the foreground: run it in a Terminal window.
+SELF="$(/bin/realpath "$0" 2>/dev/null || printf '%s' "$0")"
+DIR="$(cd "$(dirname "$SELF")/.." && pwd)"
+exec "$DIR/bin/wildid" setup "$@"

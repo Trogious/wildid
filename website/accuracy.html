@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>When WildID gets a species wrong: causes and fixes</title>
+<meta name="description" content="WildID files the answer BioCLIP gives. Why identifications go wrong, how often they were right on our test photos, and the settings that improve them.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/accuracy.html">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="When WildID gets a species wrong: causes and fixes">
+<meta property="og:description" content="WildID files the answer BioCLIP gives. Why identifications go wrong, how often they were right on our test photos, and the settings that improve them.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/accuracy.html">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"WildID","item":"https://WILDID-SITE-URL.invalid/"},{"@type":"ListItem","position":2,"name":"When a name is wrong","item":"https://WILDID-SITE-URL.invalid/accuracy.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="index.html#windows-setup">Windows setup</a></li>
+        <li><a href="index.html#macos-setup">macOS setup</a></li>
+        <li><a href="index.html#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">WildID</a> › When a name is wrong</p>
+    <h1>When a species name is wrong</h1>
+    <p class="lede">WildID files the answer that BioCLIP gives. It adds no judgement of its own and never changes an answer. A wrong name therefore points to the model or to a setting, and this page shows how to tell which.</p>
+  </div>
+</div>
+<div class="article">
+  <div class="wrap">
+    <div class="prose">
+      <h2>Who decides</h2>
+      <p>WildID does four things with a photo. It reads it, it crops to the animal if the crop is on, it asks BioCLIP which names fit, and it files the top answer as keywords and a collection. The choice of the name is the model&rsquo;s alone.</p>
+      <p>So a wrong name is rarely a fault in WildID, and WildID cannot repair it. What you can change are the conditions under which the model is asked.</p>
+
+      <h2>What to check, in this order</h2>
+      <ol>
+        <li><strong>Was the animal found?</strong> With the crop on, the model sees the animal. With it off, or when nothing is detected, it sees the whole frame, and a small animal in a wide landscape is easily named as a plant or a bird. If several animals are in the frame, only the most confident detection is used.</li>
+        <li><strong>Was a place list used, and the right one?</strong> Without a list the model chooses among 867,455 names from the whole world, look-alikes from other continents included. With the wrong list the right species may not be a candidate at all. Zoo animals and introduced species are usually not on the list of the country they were photographed in.</li>
+        <li><strong>Was it the right model?</strong> BioCLIP&nbsp;2.5 does not know reptiles and answers with a confident wrong name. Use BioCLIP&nbsp;2 for reptiles.</li>
+        <li><strong>Do the taxa fit?</strong> A place list covers mammals, reptiles, amphibians and birds unless you change the taxa. An insect or a fish identified with a place list active is forced into one of those groups, and is then usually flagged for review.</li>
+        <li><strong>Is it a hard case?</strong> Closely related species, young animals, unusual angles, motion blur and poor light are difficult for the model, as they are for people.</li>
+      </ol>
+
+      <h2>What the review flag means</h2>
+      <p>WildID flags a photo for review in two cases: the best score is below the threshold, 0.5 unless you change it, or the answer the model would give without the place list is not on the list. Flagged photos get the keyword <code>WildID › review</code> and appear in the <code>_review</code> collection.</p>
+      <p>The flag is a hint, not a verdict. Flagged photos are often right, and unflagged photos can be wrong.</p>
+
+      <h2>How often it was right in our tests</h2>
+      <p>These results come from one photographer&rsquo;s own pictures, taken on a few trips, with the crop on. Lemurs are a hard group with many similar species. Your results will differ.</p>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Photos</th><th scope="col">Place list</th><th scope="col">BioCLIP 2</th><th scope="col">BioCLIP 2.5</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">401 lemur RAW photos, four groups</th><td>Madagascar</td><td>77.1 %</td><td>80.8 %</td></tr>
+          <tr><th scope="row">The same 401</th><td>none</td><td>69.8 %</td><td>79.8 %</td></tr>
+          <tr><th scope="row">385 lemur JPEGs, twelve species</th><td>Madagascar</td><td>70.1 %</td><td>72.5 %</td></tr>
+          <tr><th scope="row">The same 385, genus correct</th><td>Madagascar</td><td>90.4 %</td><td>89.9 %</td></tr>
+          <tr><th scope="row">65 fossa, mongoose and fruit bat photos</th><td>Madagascar</td><td>63 of 65</td><td>65 of 65</td></tr>
+          <tr><th scope="row">22 Kenyan mammal photos</th><td>Kenya</td><td>21 of 22</td><td>19 of 22</td></tr>
+          <tr><th scope="row">63 Madagascar reptile photos</th><td>Madagascar</td><td>63 of 63</td><td>0 of 63</td></tr>
+          <tr><th scope="row">15 British seabird and eagle photos</th><td>none</td><td>14 of 15</td><td>14 of 15</td></tr>
+        </tbody>
+        <caption>A photo counts as correct at the level its folder was labelled with: the species for most, the genus or the family for a few.</caption>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Two things stand out. The place list lifted BioCLIP&nbsp;2 by 4 to 7 percentage points on the lemurs. And the genus was right for nine lemur photos out of ten, so most wrong species names were near misses.</p>
+
+      <h2>What improves the answers</h2>
+      <ul>
+        <li><strong>Leave the crop on.</strong> In one of our Kenya photos a distant cheetah was named as a francolin, a bird, with a score of about 0.2 on the full frame. With the crop the answer was cheetah at about 0.9.</li>
+        <li><strong>Use a place list</strong> for the country or region of the trip. <a href="places.html">How place lists work</a></li>
+        <li><strong>Choose the model to suit the subject.</strong> <a href="models.html">BioCLIP 2 or 2.5</a></li>
+        <li><strong>Switch on the second opinion</strong> for mammals. A disagreement between the two models is a good reason to look closer.</li>
+        <li><strong>Go through the review collection</strong> before you rely on the names.</li>
+      </ul>
+
+      <h2>What to report, and where</h2>
+      <p>A wrong name is not a bug in WildID. The model&rsquo;s authors publish new versions from time to time, and WildID can adopt them.</p>
+      <p>Faults in WildID are worth reporting: a crash, a photo that fails to load, keywords or collections written wrongly, an engine that does not start. Please <a href="https://github.com/Trogious/wildid/issues">report those on GitHub</a>.</p>
+    </div>
+    <p class="pager"><a href="hardware.html">Previous: GPU, VRAM and speed</a><a href="places.html">Next: Place lists and GPS</a></p>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="index.html#windows-setup">Windows setup</a></li>
+          <li><a href="index.html#macos-setup">macOS setup</a></li>
+          <li><a href="index.html#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

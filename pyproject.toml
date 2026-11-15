@@ -1,0 +1,77 @@
+[project]
+name = "wildid"
+version = "0.3.1"
+description = "Species ID CLI for wildlife photos: BioCLIP + TreeOfLife, local GPU, offline-first"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+requires-python = ">=3.12"
+dependencies = [
+    "pybioclip>=2.1.6",
+    "rawpy>=0.27",
+    "pillow>=11",
+    "typer>=0.15",
+    "rich>=13",
+    "requests>=2.32",
+    "platformdirs>=4",
+    "huggingface_hub>=0.30",
+    "numpy>=2",
+    "torch>=2.14",
+    "torchvision>=0.29",
+    "ultralytics>=8.4.184",
+    "onnx2torch>=1.5.15",
+    "exifread>=3.0",
+]
+
+[project.scripts]
+wildid = "wildid.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "responses>=0.25",
+    "ruff>=0.9",
+]
+
+[tool.uv]
+# Python always comes from uv, never from the machine (owner, 2026-11-15): in a checkout, in
+# CI and in an installed copy, which carries this file, on every system. Left to its default,
+# uv builds on a Python 3.14 it finds (Homebrew, python.org) and downloads its own only when
+# there is none.
+python-preference = "only-managed"
+# The CUDA wheel index serves Linux and Windows. macOS is Apple Silicon only (ADR 0008) and
+# takes torch from PyPI, whose arm64 build carries the MPS backend. Keep the universal lock to
+# these three.
+environments = [
+    "sys_platform == 'linux'",
+    "sys_platform == 'win32'",
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
+# One torch line on every platform, so MPS and CUDA results differ by backend only: the macOS
+# entries mirror the versions locked from the CUDA index. Raise them together.
+constraint-dependencies = [
+    "torch==2.14.1; sys_platform == 'darwin'",
+    "torchvision==0.29.1; sys_platform == 'darwin'",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu130", marker = "sys_platform != 'darwin'" }]
+torchvision = [{ index = "pytorch-cu130", marker = "sys_platform != 'darwin'" }]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

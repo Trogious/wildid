@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WildID on the command line: folders, JSON, sidecars</title>
+<meta name="description" content="Use WildID without Lightroom: identify whole folders from a terminal, write JSON, or create XMP keyword sidecars that Lightroom Classic reads on import.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/command-line.html">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="WildID on the command line: folders, JSON, sidecars">
+<meta property="og:description" content="Use WildID without Lightroom: identify whole folders from a terminal, write JSON, or create XMP keyword sidecars that Lightroom Classic reads on import.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/command-line.html">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"WildID","item":"https://WILDID-SITE-URL.invalid/"},{"@type":"ListItem","position":2,"name":"Command line","item":"https://WILDID-SITE-URL.invalid/command-line.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="index.html#windows-setup">Windows setup</a></li>
+        <li><a href="index.html#macos-setup">macOS setup</a></li>
+        <li><a href="index.html#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">WildID</a> › Command line</p>
+    <h1>WildID on the command line</h1>
+    <p class="lede">The engine behind the Lightroom plugin is also a command-line tool. It identifies single files or whole folders, prints the result as text or JSON, and can write keyword sidecars for RAW files. It is the way to use WildID on Linux, and it works on Windows and macOS too.</p>
+  </div>
+</div>
+<div class="article">
+  <div class="wrap">
+    <div class="prose">
+      <h2>The two commands</h2>
+      <pre><code>wildid PATH [options]        identify a file or a folder, subfolders included
+wildid prefetch [options]    download models and place lists; the only online command</code></pre>
+      <p>From a source checkout, put <code>uv run</code> in front: <code>uv run wildid PATH</code>. The <a href="index.html#linux-setup">Linux setup</a> shows the installation. With the Windows installer, the same tool is <code>wildid.cmd</code> in <code>%LOCALAPPDATA%\Programs\WildID</code>. After the macOS installation it is <code>wildid</code> in <code>~/Library/Application Support/WildID/bin</code>, or plain <code>wildid</code> in a new Terminal window if you let the installer add it to your PATH.</p>
+
+      <h2>Reading the output</h2>
+      <pre><code>wildid 0.3.1 | model=bioclip-2 device=cuda precision=tf32 | candidates=412 species (Brazil › Mato Grosso; Mammalia,Reptilia,Amphibia,Aves; fetched 2026-10-23)
+note: scores are a softmax over the candidate set and are not comparable between runs with different candidates
+DSC04512.ARW
+  1. Panthera onca            Jaguar                 0.962
+  2. Puma concolor            Puma                   0.021
+  3. Leopardus pardalis       Ocelot                 0.009
+  unconstrained top-1: Panthera onca (0.871)</code></pre>
+      <p>The first line names the model, the device and the candidate list. On a Mac the device is <code>mps</code>, the graphics processor of Apple Silicon, and the precision is <code>fp32</code>. Each photo then gets a block with the best matches and their scores. With a place list, the last line shows the answer the model gives without the list, as a cross-check. Results go to standard output and progress messages to standard error, so the results can be redirected into a file.</p>
+
+      <h2>Common options</h2>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Option</th><th scope="col">What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row"><code>--crop</code></th><td>Finds the animal with MegaDetector and identifies the crop. Recommended.</td></tr>
+          <tr><th scope="row"><code>--crop-exact</code></th><td>With <code>--crop</code>: reduces the photo for the detector with a method that is meant to give the same result on every computer. Off by default. <a href="hardware.html#mac-and-pc">Why a Mac and a PC can differ</a></td></tr>
+          <tr><th scope="row"><code>--country</code>, <code>--region</code>, <code>--continent</code>, <code>--place-id</code></th><td>Limits the candidates to the species recorded in a place. Fetch the list first with <code>wildid prefetch</code> and the same option.</td></tr>
+          <tr><th scope="row"><code>--geo-auto</code></th><td>Picks the country for each photo from its GPS position. Prepare it with <code>wildid prefetch --gps-from FOLDER</code>.</td></tr>
+          <tr><th scope="row"><code>--model bioclip-2.5</code></th><td>Uses the larger model, which does not know reptiles.</td></tr>
+          <tr><th scope="row"><code>--second-opinion</code></th><td>Adds SpeciesNet&rsquo;s verdict on each photo.</td></tr>
+          <tr><th scope="row"><code>--k 5</code></th><td>The number of candidates printed per photo.</td></tr>
+          <tr><th scope="row"><code>--format json --output run.json</code></th><td>Writes one JSON document with the candidates, the review flag and the suggested keywords for every photo.</td></tr>
+          <tr><th scope="row"><code>--write-xmp</code></th><td>Writes the keywords as XMP sidecars next to RAW files. See below.</td></tr>
+          <tr><th scope="row"><code>--offline</code></th><td>Forbids every network call and fails at once if something is missing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <h2>Keyword sidecars before you import</h2>
+      <pre><code>uv run wildid /media/card/DCIM --crop --country Kenya --write-xmp</code></pre>
+      <p>This writes an <code>.xmp</code> file next to each RAW file, with the same keywords the Lightroom plugin would add. Lightroom Classic reads them when you import the photos. Use it on a memory card or a fresh folder, before the import.</p>
+      <ul>
+        <li>Sidecars are written for RAW files only. JPEG and DNG keep their metadata inside the file, and WildID never modifies photo files.</li>
+        <li>An existing sidecar is left alone, because it may hold develop settings. <code>--xmp-mode merge</code> adds the keywords to it and changes nothing else.</li>
+        <li><code>--dry-run</code> reports what would be written.</li>
+      </ul>
+      <p>For photos that are already in a Lightroom catalog, use the plugin. It writes through the catalog, which avoids conflicts between the catalog and files on the disk.</p>
+
+      <h2>Before a trip</h2>
+      <pre><code>uv run wildid prefetch --model all --crop --second-opinion --country Kenya
+uv run wildid --offline test.jpg --country Kenya</code></pre>
+      <p>The first line downloads everything for the destination. The second proves that an identification runs without the network.</p>
+
+      <h2>Exit codes</h2>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">Code</th><th scope="col">Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">0</th><td>Finished. Files that could not be read are listed on standard error.</td></tr>
+          <tr><th scope="row">1</th><td>A wrong option, or a place list that is missing.</td></tr>
+          <tr><th scope="row">2</th><td>The model could not be loaded, for example because it was never downloaded.</td></tr>
+          <tr><th scope="row">3</th><td>Not a single image could be read.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>The complete reference, with every option, is the <a href="https://github.com/Trogious/wildid#readme">README on GitHub</a>.</p>
+    </div>
+    <p class="pager"><a href="privacy.html">Previous: Offline and privacy</a><a href="licence.html">Next: Licence and credits</a></p>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="index.html#windows-setup">Windows setup</a></li>
+          <li><a href="index.html#macos-setup">macOS setup</a></li>
+          <li><a href="index.html#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

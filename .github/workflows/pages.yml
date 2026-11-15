@@ -1,0 +1,89 @@
+# WildID website: publish website/ to GitHub Pages.
+#
+# Runs when a push to main touches website/ (or this file), and on manual dispatch
+# (Actions -> website -> "Run workflow").
+#
+# One-time setup, done by the owner on 2026-11-15: the repository is public, and
+#   Settings -> Pages -> Build and deployment -> Source is "GitHub Actions".
+#   Without that source the job fails at its "Pages settings" step and publishes nothing.
+#
+# - The job is skipped in a private repository: GitHub Pages on the free plan needs a public
+#   one. On a plan that allows Pages from a private repository, remove the `if` of the job.
+# - The pages in the repository carry the placeholder https://WILDID-SITE-URL.invalid for their
+#   own address (canonical link, sharing tags, structured data, sitemap.xml, robots.txt). The
+#   stage step replaces it with the address GitHub Pages reports, so a custom domain set in the
+#   Pages settings reaches every page with the next run, without editing the pages.
+# - website/README.md and website/TODO_WEBSITE.md are notes for maintainers and are not published.
+
+name: website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'website/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deployment at a time; a newer run waits for the one in progress instead of cancelling it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: publish website/ to GitHub Pages
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Pages settings (the address the site is served from)
+        id: pages
+        uses: actions/configure-pages@v6
+      - name: Stage the site with its address filled in
+        env:
+          BASE_URL: ${{ steps.pages.outputs.base_url }}
+          PLACEHOLDER: https://WILDID-SITE-URL.invalid
+        run: |
+          set -euo pipefail
+          case "$BASE_URL" in
+            http://* | https://*) ;;
+            *) echo "::error::GitHub Pages reported no address for this site ('$BASE_URL')"; exit 1 ;;
+          esac
+          BASE_URL="${BASE_URL%/}"
+
+          mkdir _site
+          cp -R website/. _site/
+          rm -f _site/README.md _site/TODO_WEBSITE.md
+
+          list="$RUNNER_TEMP/pages-with-placeholder.txt"
+          grep -rlF --include='*.html' --include='*.xml' --include='*.txt' "$PLACEHOLDER" _site > "$list" || true
+          if [ -s "$list" ]; then
+            xargs -d '\n' sed -i "s#${PLACEHOLDER}#${BASE_URL}#g" < "$list"
+          fi
+          if grep -rnF "WILDID-SITE-URL" _site; then
+            echo "::error::the address placeholder is still in the staged site"
+            exit 1
+          fi
+          test -s _site/index.html
+
+          {
+            echo "Publishing $(find _site -type f | wc -l) files as ${BASE_URL}/"
+            echo "Address filled into $(wc -l < "$list") files."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

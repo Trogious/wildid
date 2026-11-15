@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BioCLIP 2 and BioCLIP 2.5: the models behind WildID</title>
+<meta name="description" content="How WildID uses BioCLIP 2 and BioCLIP 2.5 to identify species, how the two models differ, and which one to choose for mammals, birds and reptiles.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/models.html">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="BioCLIP 2 and BioCLIP 2.5: the models behind WildID">
+<meta property="og:description" content="How WildID uses BioCLIP 2 and BioCLIP 2.5 to identify species, how the two models differ, and which one to choose for mammals, birds and reptiles.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/models.html">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"WildID","item":"https://WILDID-SITE-URL.invalid/"},{"@type":"ListItem","position":2,"name":"Models","item":"https://WILDID-SITE-URL.invalid/models.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="index.html#windows-setup">Windows setup</a></li>
+        <li><a href="index.html#macos-setup">macOS setup</a></li>
+        <li><a href="index.html#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">WildID</a> › Models</p>
+    <h1>The models behind WildID: BioCLIP 2 and BioCLIP 2.5</h1>
+    <p class="lede">WildID contains no recognition model of its own. It runs BioCLIP, an open vision model for biology, exactly as its authors published it. This page explains what the model does, how its two versions differ and which one to choose.</p>
+  </div>
+</div>
+<div class="article">
+  <div class="wrap">
+    <div class="prose">
+      <h2>What BioCLIP is</h2>
+      <p>BioCLIP&nbsp;2 is a vision model for photographs of living things. It was published by researchers at the Imageomics Institute and trained on TreeOfLife-200M, a very large collection of images labelled with their position in the tree of life. It is released under the MIT licence, and the WildID setup downloads it unchanged from <a href="https://huggingface.co/imageomics/bioclip-2">its page on Hugging Face</a>.</p>
+
+      <h2>How it names a photo</h2>
+      <p>The model turns your photo into a list of numbers. It holds a matching list of numbers for every name in its catalogue, 867,455 taxa in the case of BioCLIP&nbsp;2. The names whose numbers lie closest to those of the photo come out on top.</p>
+      <p>The score next to each name compares the candidates with each other. It is not the probability that a name is right, and it depends on the candidate list: a score of 0.9 is easier to reach among 400 regional species than among all 867,455 names. Scores from runs with different place lists cannot be compared.</p>
+
+      <h2>The two versions side by side</h2>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col"></th><th scope="col">BioCLIP 2</th><th scope="col">BioCLIP 2.5</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Role in WildID</th><td>Default</td><td>Optional, chosen per run</td></tr>
+          <tr><th scope="row">Image encoder</th><td>ViT-L/14</td><td>ViT-H/14, larger</td></tr>
+          <tr><th scope="row">Names it can give</th><td>867,455 taxa</td><td>794,878 taxa</td></tr>
+          <tr><th scope="row">Reptiles</th><td>Yes</td><td>None at all</td></tr>
+          <tr><th scope="row">Lemur photos named correctly in our test</th><td>77.1 %</td><td>80.8 %</td></tr>
+          <tr><th scope="row">Graphics memory while working in Lightroom</th><td>about 7 GB</td><td>about 10 GB</td></tr>
+          <tr><th scope="row">Memory while working, on the tested Mac</th><td>about 12 GB</td><td>about 13 GB</td></tr>
+          <tr><th scope="row">Speed on a folder of JPEGs, RTX 4090</th><td>144 photos/s</td><td>98 photos/s</td></tr>
+          <tr><th scope="row">Speed on a folder of JPEGs, Mac with an M5 Pro</th><td>33 photos/s</td><td>17 photos/s</td></tr>
+          <tr><th scope="row">Download</th><td>4.5 GB</td><td>7.3 GB</td></tr>
+        </tbody>
+        <caption>The lemur figure is from 401 RAW photos of four lemur groups, with the crop on and the Madagascar place list. <a href="accuracy.html">All test results</a></caption>
+      </table>
+    </div>
+    <div class="prose">
+      <h2>BioCLIP 2.5 does not know reptiles</h2>
+      <p>The name catalogue published for BioCLIP&nbsp;2.5 contains no reptiles: no lizards, no snakes, no turtles and no crocodiles. It cannot answer &ldquo;chameleon&rdquo;, so it answers with something else and gives that answer a confident score. On 63 of our Madagascar reptile photos BioCLIP&nbsp;2 named all 63 correctly with the Madagascar list, and BioCLIP&nbsp;2.5 named none.</p>
+      <p>This is why BioCLIP&nbsp;2 is the default. The Lightroom dialog warns you when you pick BioCLIP&nbsp;2.5 while reptiles could be among the candidates.</p>
+
+      <h2>Which one to choose</h2>
+      <ul>
+        <li><strong>BioCLIP&nbsp;2</strong> for anything that might include a reptile, and as the first pass over a new import.</li>
+        <li><strong>BioCLIP&nbsp;2.5</strong> for shoots of mammals or birds only, if your graphics card or your Mac has the memory. On our lemur photos it was ahead by 2 to 4 percentage points with a place list and by 6 to 10 without one.</li>
+      </ul>
+      <p>BioCLIP&nbsp;2.5 was not ahead everywhere. On 22 photos of Kenyan mammals BioCLIP&nbsp;2 named 21 correctly and BioCLIP&nbsp;2.5 named 19. Its authors report better results than BioCLIP&nbsp;2 on their own benchmarks, and they note that it needs more computing resources.</p>
+      <p>A routine that uses both: identify a new import with BioCLIP&nbsp;2, then select the <code>Mammalia</code> collection set and run Identify again with BioCLIP&nbsp;2.5. Photos whose species changes move to the new collection.</p>
+
+      <h2>Switching models in Lightroom</h2>
+      <p>The Identify dialog offers both models for every run. The first use of a model in a session loads it, which takes a few seconds. With &ldquo;Keep both models loaded&rdquo; ticked, switching costs no waiting time. That option needs about 14 GB of graphics memory and is offered when the card reports 20 GB or more. On a Mac it needs about 20 GB of memory and is offered when the Mac reports 30 GB or more as usable.</p>
+      <p>BioCLIP&nbsp;2.5 must have been downloaded. If you chose only BioCLIP&nbsp;2 during the setup, run WildID Setup again and answer <code>all</code>.</p>
+
+      <h2>The two helper models</h2>
+      <p><strong>MegaDetector</strong> is an open animal detector from Microsoft&rsquo;s AI for Good Lab. It finds the animal in the frame so that BioCLIP looks at the animal and not at the landscape around it. WildID uses the most confident detection, with a little margin around it. If nothing is detected, the whole frame is used.</p>
+      <p><strong>SpeciesNet</strong> is Google&rsquo;s classifier for camera-trap images. It is strongest on mammals and weak on birds and reptiles. When you switch on the second opinion, WildID asks it about the same crop and records whether it agrees with BioCLIP, lands in the same genus, family, order or class, or disagrees.</p>
+      <p>WildID does not train, tune or alter any of these models.</p>
+    </div>
+    <p class="pager"><a href="index.html#how-it-works">Back to How it works</a><a href="hardware.html">Next: GPU, VRAM and speed</a></p>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="index.html#windows-setup">Windows setup</a></li>
+          <li><a href="index.html#macos-setup">macOS setup</a></li>
+          <li><a href="index.html#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

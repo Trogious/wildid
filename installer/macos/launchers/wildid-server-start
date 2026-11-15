@@ -1,0 +1,17 @@
+#!/bin/bash
+# Start the WildID server detached and return at once. The Lightroom plug-in runs this when it
+# needs the server (engine.json "start"); the server exits by itself after its idle timeout,
+# or stop it earlier from the plug-in's server-status menu.
+# nohup + & is the whole trick on macOS: there is no window to hide, and the server outlives
+# the shell Lightroom started this script in. Output is discarded unless WILDID_SERVER_LOG
+# names a file to append it to.
+SELF="$(/bin/realpath "$0" 2>/dev/null || printf '%s' "$0")"
+DIR="$(cd "$(dirname "$SELF")/.." && pwd)"
+unset VIRTUAL_ENV
+if [ ! -x "$DIR/app/.venv/bin/python" ]; then
+    # Environment not synced yet (the installer ran offline?): sync first.
+    "$DIR/uv" sync --frozen --project "$DIR/app" >/dev/null 2>&1 || exit 1
+fi
+LOG="${WILDID_SERVER_LOG:-/dev/null}"
+nohup "$DIR/app/.venv/bin/python" -m wildid serve "$@" </dev/null >>"$LOG" 2>&1 &
+exit 0

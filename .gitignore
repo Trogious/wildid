@@ -1,0 +1,33 @@
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+
+# Test fixtures: only the tiny bear JPG is tracked
+tests/fixtures/*
+!tests/fixtures/bear.jpg
+!tests/fixtures/README.md
+
+# Local scratch
+*.log
+
+# Local photo samples for manual testing
+samples/
+
+# Owner-provided photo copies for acceptance runs (never commit photos): one folder per
+# species or trip inside each
+sample-arw*/
+sample-jpg*/
+
+# Machine-specific engine manifest for a hand-installed dev plugin (the installer writes its own)
+lrplugin/wildid.lrplugin/engine.json
+
+# Installer build folders (build.ps1 / build.sh stage and compile into these)
+installer/*/payload/
+installer/*/output/
+pull_cache.sh

@@ -1,0 +1,12 @@
+#!/bin/bash
+# WildID command-line launcher (macOS): runs wildid from the uv-managed project environment.
+# --frozen keeps the environment exactly on uv.lock; a healthy one needs no network. A missing
+# environment (the installer ran offline, or app/.venv was removed) is synced first, and that
+# does need the network.
+SELF="$(/bin/realpath "$0" 2>/dev/null || printf '%s' "$0")"
+DIR="$(cd "$(dirname "$SELF")/.." && pwd)"
+unset VIRTUAL_ENV # an activated environment of your own is not ours; keeps uv quiet about it
+if [ ! -x "$DIR/app/.venv/bin/python" ]; then
+    "$DIR/uv" sync --frozen --project "$DIR/app" || exit 1
+fi
+exec "$DIR/uv" run --frozen --project "$DIR/app" wildid "$@"

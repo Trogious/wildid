@@ -1,0 +1,4 @@
+# Shell scripts must keep LF line endings on every checkout: with CRLF (a Windows autocrlf
+# checkout) bash does not run them, and the macOS download is built from these files.
+*.sh text eol=lf
+installer/macos/launchers/* text eol=lf

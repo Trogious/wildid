@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What WildID writes to your Lightroom Classic catalog</title>
+<meta name="description" content="The keywords, collections and metadata fields WildID adds in Lightroom Classic, how re-runs and the review workflow behave, and what it never touches.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/lightroom.html">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="What WildID writes to your Lightroom Classic catalog">
+<meta property="og:description" content="The keywords, collections and metadata fields WildID adds in Lightroom Classic, how re-runs and the review workflow behave, and what it never touches.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/lightroom.html">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"WildID","item":"https://WILDID-SITE-URL.invalid/"},{"@type":"ListItem","position":2,"name":"What it writes to Lightroom","item":"https://WILDID-SITE-URL.invalid/lightroom.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="index.html#windows-setup">Windows setup</a></li>
+        <li><a href="index.html#macos-setup">macOS setup</a></li>
+        <li><a href="index.html#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">WildID</a> › What it writes to Lightroom</p>
+    <h1>What WildID writes to your Lightroom catalog</h1>
+    <p class="lede">WildID adds keywords, collections and a few metadata fields to the photos you run it on. It never changes a photo file, your develop settings or your own keywords.</p>
+  </div>
+</div>
+<div class="article">
+  <div class="wrap">
+    <div class="prose">
+      <h2>Keywords</h2>
+      <p>Each identified photo gets the top answer as a keyword hierarchy: the class, the genus and the species under one root keyword.</p>
+      <pre class="tree"><code>WildID
+└─ Mammalia
+   └─ Panthera
+      └─ Panthera onca      synonym: Jaguar</code></pre>
+      <ul>
+        <li>The <strong>common name</strong> is stored as a synonym of the species keyword. A search for &ldquo;jaguar&rdquo; finds the photo, and Lightroom can include synonyms when you export.</li>
+        <li>Photos judged to contain an animal also get the plain keyword <code>animals</code>. They get <code>wildlife</code> as well unless the species is a domestic one, such as a dog, a cat, cattle or a horse.</li>
+        <li>Photos worth a second look get <code>WildID › review</code>.</li>
+        <li>The root name <code>WildID</code> can be changed in the Identify dialog.</li>
+      </ul>
+
+      <h2>Collections</h2>
+      <p>Under a collection set of your choice, <code>WildID</code> by default, the plugin keeps a tree: a set for each class, inside it a set for each genus, and at the bottom a collection for each species that holds the photos.</p>
+      <pre class="tree"><code>WildID
+├─ Mammalia
+│  ├─ Acinonyx
+│  │  └─ Acinonyx jubatus — Cheetah
+│  └─ Panthera
+│     ├─ Panthera leo — Lion
+│     └─ Panthera onca — Jaguar
+├─ Reptilia
+│  └─ Furcifer
+│     └─ Furcifer pardalis — Panther Chameleon
+└─ _review</code></pre>
+      <p>Selecting a class or a genus set shows every photo below it. That is how a whole group is run again with the other model: select <code>Mammalia</code>, then Identify. These are ordinary collections, not smart collections. You can rename or delete them, and the plugin creates again what it needs.</p>
+
+      <h2>Metadata fields</h2>
+      <p>In the Metadata panel, under All Plug-in Metadata, each identified photo shows the WildID species, common name, class, score, status, model and time of the run. The status is <code>ok</code>, <code>review</code>, or <code>reviewed</code> once you have marked the photo. Status and class can be used in the Library filter and in smart collections, for example &ldquo;WildID status is review&rdquo;.</p>
+
+      <h2>Running it again on the same photos</h2>
+      <p>The <code>WildID</code> keyword branch and the two plain keywords belong to the plugin. A new run on a photo replaces what an earlier run left there: the old species keyword goes, a review flag that no longer applies goes, and the photo moves from its old species collection to the new one. The summary says how many photos moved.</p>
+      <p>Every other keyword stays untouched. Keep keywords of your own outside the <code>WildID</code> branch, including a species you corrected by hand.</p>
+
+      <h2>The review workflow</h2>
+      <ol>
+        <li>Open <code>WildID / _review</code>.</li>
+        <li>Check each photo and correct the name by hand where the model was wrong.</li>
+        <li>Select the photos you have dealt with and choose <strong>WildID: mark as reviewed</strong>.</li>
+      </ol>
+      <p>Marking removes the photos from <code>_review</code>, takes off the review keyword and sets the status to <code>reviewed</code>. The collection and keyword changes can be undone with Edit → Undo.</p>
+
+      <h2>What is skipped</h2>
+      <ul>
+        <li>Virtual copies and videos.</li>
+        <li>Photos whose original file is offline. If such a photo has a Smart Preview, WildID identifies it from the Smart Preview.</li>
+      </ul>
+      <p>The summary after each run counts what was skipped.</p>
+
+      <h2>What WildID never touches</h2>
+      <ul>
+        <li>The photo files themselves, RAW or JPEG.</li>
+        <li>Develop settings, ratings, flags, colour labels, titles and captions.</li>
+        <li>Keywords outside its own branch and its two plain keywords.</li>
+      </ul>
+      <p>Tick <strong>Dry run</strong> in the Identify dialog to see the counts without anything being written.</p>
+
+      <h2>The menu entries</h2>
+      <p>All five are under <strong>Library → Plug-in Extras</strong> and again under <strong>File → Plug-in Extras</strong>.</p>
+      <dl class="options">
+        <div><dt>Identify species with WildID…</dt><dd>Identifies the selected photos and writes the results.</dd></div>
+        <div><dt>WildID: mark as reviewed</dt><dd>Clears the review markers on the selected photos.</dd></div>
+        <div><dt>WildID: prefetch place list…</dt><dd>Fetches the species list for a place. The only entry that uses the internet.</dd></div>
+        <div><dt>WildID: server status…</dt><dd>Shows whether the engine is running, with its models and its memory, and starts or stops it.</dd></div>
+        <div><dt>WildID: delete empty collections…</dt><dd>Removes the empty species collections and sets that re-runs leave behind, after showing you the list.</dd></div>
+      </dl>
+    </div>
+    <p class="pager"><a href="places.html">Previous: Place lists and GPS</a><a href="privacy.html">Next: Offline and privacy</a></p>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="index.html#windows-setup">Windows setup</a></li>
+          <li><a href="index.html#macos-setup">macOS setup</a></li>
+          <li><a href="index.html#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

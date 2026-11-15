@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Offline and privacy: your photos stay on your computer</title>
+<meta name="description" content="WildID identifies species on your own computer. What it downloads once, which websites it contacts and when, and why your photos are never uploaded.">
+<link rel="canonical" href="https://WILDID-SITE-URL.invalid/privacy.html">
+<meta name="theme-color" content="#f2f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WildID">
+<meta property="og:title" content="Offline and privacy: your photos stay on your computer">
+<meta property="og:description" content="WildID identifies species on your own computer. What it downloads once, which websites it contacts and when, and why your photos are never uploaded.">
+<meta property="og:url" content="https://WILDID-SITE-URL.invalid/privacy.html">
+<meta property="og:image" content="https://WILDID-SITE-URL.invalid/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WildID: species names for your wildlife photos, inside Lightroom Classic">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"WildID","item":"https://WILDID-SITE-URL.invalid/"},{"@type":"ListItem","position":2,"name":"Offline and privacy","item":"https://WILDID-SITE-URL.invalid/privacy.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="WildID home">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h8M11 7v16M11 7h14M11 23h8M19 18v10M19 18h6M19 28h6"/></g><circle cx="26" cy="7" r="3" fill="currentColor"/><circle class="tip" cx="26" cy="18" r="3"/><circle cx="26" cy="28" r="3" fill="currentColor"/></svg>
+      WildID
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#download">Download</a></li>
+        <li><a href="index.html#how-it-works">How it works</a></li>
+        <li><a href="index.html#windows-setup">Windows setup</a></li>
+        <li><a href="index.html#macos-setup">macOS setup</a></li>
+        <li><a href="index.html#linux-setup">Linux setup</a></li>
+        <li><a href="https://github.com/Trogious/wildid">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<div class="page-head">
+  <div class="wrap">
+    <p class="crumbs"><a href="index.html">WildID</a> › Offline and privacy</p>
+    <h1>Offline and privacy</h1>
+    <p class="lede">Your photos are identified on your own computer and are never uploaded. WildID uses the internet to download its parts once and to fetch place lists when you ask for one. It has no account, no telemetry and no update check.</p>
+  </div>
+</div>
+<div class="article">
+  <div class="wrap">
+    <div class="prose">
+      <h2>When WildID uses the internet</h2>
+    </div>
+    <div class="table-wrap wide">
+      <table>
+        <thead>
+          <tr><th scope="col">When</th><th scope="col">What is downloaded</th><th scope="col">From</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Installation</th><td>Python and the libraries WildID runs on</td><td>pypi.org, download.pytorch.org, github.com</td></tr>
+          <tr><th scope="row">Setup wizard</th><td>The BioCLIP models and their name catalogues</td><td>huggingface.co</td></tr>
+          <tr><th scope="row">Setup wizard</th><td>MegaDetector and, if chosen, SpeciesNet</td><td>zenodo.org, kaggle.com</td></tr>
+          <tr><th scope="row">Fetching a place list</th><td>Species lists and name matches</td><td>api.inaturalist.org, api.gbif.org</td></tr>
+          <tr><th scope="row">Identifying photos</th><td>Nothing</td><td>No connection is made</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <h2>What leaves your computer</h2>
+      <p>When you fetch a place list, WildID sends the name or the id of the place to iNaturalist, and species names from that list to GBIF.</p>
+      <p>When you fetch lists from the GPS positions of your photos, WildID sends one position for each area of about 28 by 28 km to iNaturalist, to find out which country or region it lies in. The position is one of your photo positions, accurate to about 100 m. If you would rather not send positions, type the country or region by name.</p>
+      <p>Nothing else is sent. No photo, no file name, no keyword and no usage data leaves your computer, at any time.</p>
+
+      <h2>Working without a connection</h2>
+      <p>Once the setup is done, identifying photos needs no internet. The setup wizard proves this at its end by running an identification with the network switched off. Before a trip, fetch the place lists for your destinations and WildID will work on a laptop in the field.</p>
+
+      <h2>The engine on your computer</h2>
+      <p>The engine that does the recognition is a small local server. It listens on your own computer only, on an address other computers on the network cannot reach, and every request must carry a secret key that is stored in your user profile. It stops by itself after 15 minutes without work.</p>
+
+      <h2>No telemetry</h2>
+      <p>WildID collects no statistics, sends no crash reports and does not check for updates. The libraries it builds on are set up the same way. If a Hugging Face token is saved on your computer, it is used for downloads from huggingface.co and nowhere else.</p>
+
+      <h2>This website</h2>
+      <p>This site consists of plain pages. It sets no cookies, runs no scripts and loads nothing from other servers. As with any website, the server that hosts it sees the request your browser makes.</p>
+    </div>
+    <p class="pager"><a href="lightroom.html">Previous: What it writes to Lightroom</a><a href="command-line.html">Next: Command line</a></p>
+  </div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>WildID</h2>
+        <p>Species identification for wildlife photos, in Lightroom Classic and on the command line. Free and open source under the AGPL-3.0 licence.</p>
+        <p>Recognition by BioCLIP&nbsp;2 from the Imageomics Institute. Animal detection by MegaDetector. Species lists from iNaturalist, with names matched against the GBIF Backbone Taxonomy.</p>
+      </div>
+      <nav aria-label="Details">
+        <h2>Details</h2>
+        <ul>
+          <li><a href="models.html">Models</a></li>
+          <li><a href="hardware.html">GPU, VRAM and speed</a></li>
+          <li><a href="accuracy.html">When a name is wrong</a></li>
+          <li><a href="places.html">Place lists and GPS</a></li>
+          <li><a href="lightroom.html">What it writes to Lightroom</a></li>
+          <li><a href="privacy.html">Offline and privacy</a></li>
+          <li><a href="command-line.html">Command line</a></li>
+          <li><a href="licence.html">Licence and credits</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Project">
+        <h2>Project</h2>
+        <ul>
+          <li><a href="index.html#windows-setup">Windows setup</a></li>
+          <li><a href="index.html#macos-setup">macOS setup</a></li>
+          <li><a href="index.html#linux-setup">Linux setup</a></li>
+          <li><a href="https://github.com/Trogious/wildid/releases/latest">Latest release</a></li>
+          <li><a href="https://github.com/Trogious/wildid">Source code on GitHub</a></li>
+          <li><a href="https://github.com/Trogious/wildid/issues">Report a problem</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="legal">
+      <p>WildID is an independent project. It is not affiliated with or endorsed by Adobe, NVIDIA, Microsoft, Google, the Imageomics Institute, iNaturalist or GBIF. Adobe and Lightroom are trademarks of Adobe Inc.; other names belong to their owners. WildID comes with no warranty.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
