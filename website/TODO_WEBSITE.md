@@ -1,6 +1,6 @@
 # Website: what is still needed
 
-Open items for the project website in this folder before it can go live, as of 2026-11-13.
+Open items for the project website in this folder. The site is live since 2026-11-15.
 How to apply each one is described in [`README.md`](README.md). Tick an item when it is done.
 File paths below are given from the repository root.
 
@@ -12,10 +12,11 @@ publishes nothing. Once, in this order:
 
 - [x] Switch the repository to public. *(2026-11-15)*
 - [x] Settings → Pages → Build and deployment → Source: **GitHub Actions**. *(2026-11-15)*
-- [ ] The first publication: a push to `main` that changes `website/` runs the workflow by
+- [x] The first publication: a push to `main` that changes `website/` runs the workflow by
       itself; otherwise Actions → website → Run workflow. The run's summary shows the address:
       `https://trogious.github.io/wildid`, unless a custom domain is set. Later changes under
-      `website/` publish themselves.
+      `website/` publish themselves. *(2026-11-15: published by the first push, at that
+      address.)*
 - [ ] **Search engines.** Under the default address the site sits in a sub-path, where search
       engines do not read `robots.txt`. Submitting the sitemap in Google Search Console covers
       it: add the site there and submit `sitemap.xml`. A custom domain removes the limitation.
