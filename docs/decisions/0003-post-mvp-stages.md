@@ -53,7 +53,13 @@ ultralytics' predictor builds: the interpolation is an argument of that class wh
 predictor never passes. A test runs the swap against the real ultralytics. Not done: making
 it the default, which would change the accepted crop results on Windows and Linux, and
 hand-written resize code. Still to be measured: that the two systems agree with it (backlog
-item 13). Even then the PC's default TF32 leaves a few crops different.
+item 13). Even then the PC's default TF32 leaves a few crops different. *(The Linux box's part
+of item 13, the same day: on the PC the option is another resize on every photo, 11 % of the
+detector's input values differ by 1, and it changes the crop on 231 of 863 JPGs and 57 of 157
+RAW files and 43 of 2,040 answers, 37 of them review frames with and without it. So as a
+default it would change the accepted results on a PC by about as much as the Mac differs from
+the PC today. Under the option TF32 and fp32 differ on 31 crops and 5 answers. Whether the two
+systems agree with it is the Mac's part, still open.)*
 
 **Weights and offline:** `wildid prefetch --crop [--detector …]` downloads the `.pt` from the
 Zenodo record PytorchWildlife uses (sha256 pinned in `detector.py`) into

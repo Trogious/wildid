@@ -1464,3 +1464,121 @@ same day (ADR 0003 §1, ADR 0005 decision 3).
   checklists. And the claim itself, that the option gives the same pixels and so the same crop
   on a Mac and on a PC, is OpenCV's and is not measured yet: backlog item 13. Until then
   `--help`, the checkbox's title and tooltip, the README and the website say "meant to".
+
+## Linux: the exact detector resize against the default (2026-11-15)
+
+The Linux box's part of backlog item 13 (`species-id-mvp-plan.md` §10): what `--crop-exact`
+changes on a PC. Version 0.3.1, current `main`, clean tree, in a fresh clone of the public
+repository with the environment built anew from the lock: the same Python and the same
+package versions as in the earlier runs. The same machine, model snapshots, detector and
+photos; all 1,020 photos were checked against `samples.sha256` first. The files went into
+`~/.cache/wildid-acceptance/cuda-reference/`. **Whether the option makes a Mac and a PC agree
+is not answered here:** that takes the Mac's checksums and runs, and the new files are on the
+Linux box only.
+
+- **A control first.** Items 9 to 12 could say that nothing under `src/` differed from the
+  commit of the runs before them. This item cannot: the engine has the new option, and the
+  commits of the earlier runs are not in the public repository's history, so there is nothing
+  to compare with. Instead the earlier commands were repeated on this commit without the
+  option: the item's script with no extra argument, and the eight default crop runs of items
+  9 and 10. The two checksum files equal item 12's row for row. The eight runs equal the
+  earlier ones in every field of all 4,080 results; the documents differ only in their new
+  head field `crop_resize`, which says `linear`. So what the runs with the option differ in
+  is the option's doing. The control is in the folder, under `control-item13/`.
+- **The script is the item's** (`detector_pixels2.py`, taken from the plan's text): item 12's
+  script with what the item adds, extra arguments passed on to `wildid classify` and
+  `crop_resize` in the head line. Every file is as the item expects: `crop_resize exact` in
+  the first line of both `.tsv` files; in the eight run documents `"crop_resize": "exact"`,
+  `"device": "cuda"`, `tf32` in the first four and `fp32` in the last four, 863 and 157
+  results, none failed. Each `.err` file carries wildid's line that the detector's resize is
+  the exact one.
+- **The detector is handed the same image and computes on another one, on every photo.**
+
+  | | `sample-jpg`, 863 | `sample-arw`, 157 |
+  |---|---|---|
+  | Image handed to the detector differs | 0 | 0 |
+  | Letterboxed image differs | 863 | 157 |
+  | Shape of the letterboxed image differs | 0 | 0 |
+
+  The first row is what the item requires. The second says that on this box OpenCV's exact
+  resize is not what its portable default computes, on any photo.
+- **By how much** (not asked by the item; `exact-pixels.py`). The script rebuilds each
+  photo's image for the detector outside a run and letterboxes it with both methods; its
+  three checksums equal the ones recorded inside the runs on all 1,020 photos. Of the colour
+  values of the letterboxed photos, without ultralytics' grey border, 11.1 % differ on the
+  JPGs and 11.1 % on the RAW previews, every one of them by 1 of 255, between 4 % and 13 % of
+  a photo's values. The exact resize gives the higher value in all but 118 of 94.6 million
+  cases on the JPGs and all but 26,331 of 12.3 million on the RAW previews. For comparison,
+  the Mac's default resize differs from this box's default by 1 in about a fifth of the
+  values (item 12).
+- **What the option changes in the runs.** Each run with `--crop-exact` against the run of
+  the same command without it, the same precision on both sides:
+
+  | Pair | Precision | Crop not the same | Top-1 answers that differ | Of those, review frames in both runs |
+  |---|---|---|---|---|
+  | `sample-jpg --crop`, bioclip-2 | TF32 | 231 of 863 | 13 | 13 |
+  | `sample-jpg --crop`, bioclip-2.5 | TF32 | 231 of 863 | 15 | 12 |
+  | `sample-arw --crop`, bioclip-2 | TF32 | 57 of 157 | 5 | 5 |
+  | `sample-arw --crop`, bioclip-2.5 | TF32 | 57 of 157 | 10 | 7 |
+  | `sample-jpg --crop`, bioclip-2 | fp32 | 228 of 863 | 11 | 11 |
+  | `sample-jpg --crop`, bioclip-2.5 | fp32 | 228 of 863 | 15 | 12 |
+  | `sample-arw --crop`, bioclip-2 | fp32 | 55 of 157 | 5 | 5 |
+  | `sample-arw --crop`, bioclip-2.5 | fp32 | 55 of 157 | 10 | 7 |
+
+  In TF32, 43 of the 2,040 answers differ and 37 of them are review frames in both runs; in
+  fp32, 41 and 35. In each precision six of the changed answers carry a score of 0.5 or more
+  in at least one run. "Crop not the same" in TF32: on the JPGs the size differs on 229 of
+  the 761 frames detected in both runs, by 1 px on 124, by 2 px on 58, by 3 to 10 px on 35
+  and by more on 12, and 2 frames have a detection with the option only; on the RAW files
+  the size differs on 57 of 137, by 1 px on 29, by 2 px on 11, by 3 to 10 px on 12 and by
+  more on 5. The detector's confidence moves by 0.0009 at the median and 0.029 at most on
+  the JPGs, by 0.0012 and 0.026 on the RAW files. The number of review frames stays within
+  two of the default's in every run. The run document records the crop's size and not its
+  position: one of the changed answers in fp32 sits on a frame whose crop has the same size
+  in both runs.
+- **For scale.** Without the option the Mac and this box differ on 281 JPG crops, 10 RAW
+  crops and 38 of 2,040 answers, fp32 on both ("macOS against the Linux box in fp32 and on
+  its CPU, through the crop", above). On this box, in fp32, the option changes 228 JPG
+  crops, 55 RAW crops and 41 answers: about as many answers, fewer JPG crops and more RAW
+  crops. The Mac's default resize equals this box's on the 2048 × 1152 previews, which 133
+  of the 157 RAW files have; the exact resize equals this box's default on none.
+- **Against the folder names** (not asked by the item; the truth table of `bench.py`, the
+  benchmark of section E of the acceptance checklists, which scores an answer at the finest
+  rank the folder's name fixes). With the option 404 and 379 of the 569 scored JPG answers
+  are right, for bioclip-2 and bioclip-2.5, where 406 and 384 are without it; of the 155
+  scored RAW answers 136 and 116 where 137 and 117 are. Together 1,035 against 1,044 of
+  1,448, the same in TF32 and in fp32. Ten answers are right without the option only and one
+  with it only. Seven of the ten are review frames with and without the option. The other
+  three are bioclip-2.5 answers that had no review flag without it (scores in TF32):
+  *Varecia rubra* 0.847 on the full frame becomes *Ailurus styani* 0.559 on a crop of
+  319 × 1200 px (`lemur-red-ruffed/A7R04965.jpg`, a detection the default does not have);
+  *Mungotictis decemlineata* 0.936 becomes *Mungos gambianus* 0.325, flagged for review, as
+  the box shrinks from the whole frame to 914 × 799 px (`mongoose/1A7R02141.jpg`); *Eulemur
+  rufus* 0.591 becomes *Phascolarctos cinereus* 0.815 as the box grows to the whole preview
+  (`lemur/A7R06620.ARW`). Eleven frames are too few to say that the exact resize makes the
+  detector worse. They do say that on these photos it has not made the answers better.
+- **The PC's precision still shows under the option** (not asked by the item; for the Mac's
+  comparison with both sets of runs). With `--crop-exact`, fp32 against TF32: 2, 2, 0 and 1
+  answers differ, and the crop's size on 25 JPGs and 6 RAW files. Item 10 found 2, 1, 0 and
+  0 answers and 29 and 3 crop sizes for the default resize.
+- **Speed.** One resize of a 1440 × 1800 px JPG to the detector's size takes 0.26 ms with the
+  exact method and 0.09 ms with the default on this box, 0.14 s more on 863 photos. The
+  runs: 68.6, 55.7, 31.5 and 29.2 img/s in TF32 against the control's 68.3, 57.2, 31.6 and
+  29.5; 62.5, 47.2, 30.4 and 27.1 img/s in fp32 against 64.6, 48.9, 30.7 and 26.8. One
+  command differs by as much from run to run: `jpg-b2-crop` gave 71.5 img/s in item 9 and
+  68.3 in the control. Peak GPU memory is the same.
+- **The earlier files and the samples were not touched.** The 88 files that were in the
+  folder besides `MANIFEST.txt` have the checksums, sizes and times they had; `MANIFEST.txt`
+  has a fifth section after its unchanged part. SHA-256, size and modification time of all
+  864 + 312 sample files are the same before and after the runs.
+- **In the folder for item 13:** `detector_pixels2.py`, the two `pixels-*-linux-exact.tsv`
+  files, the eight `-crop-exact` runs (`.json`, `.err`, `.out`), `driver-item13.sh` and
+  `run-item13.log`, `verify-item13.py`, `exact-compare.py` and its output
+  `exact-comparison.txt`, `exact-pixels.py` and its output `exact-pixel-difference.txt`, a
+  copy of `bench.py`; for the control `driver-item13-control.sh`,
+  `control-item13-compare.py` and the folder `control-item13/`.
+- **Open, the Mac's part of item 13.** The folder goes to the Mac. There the same script and
+  the four crop runs with `--crop-exact` are made, and the comparison that decides: is the
+  letterboxed checksum with the option the same on both machines on every photo, and do the
+  Mac's runs give the crops and answers of this box's `-crop-exact-fp32` runs? Until then
+  every text about the option says "meant to".

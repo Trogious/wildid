@@ -601,8 +601,9 @@ Rules:
       off by default: `--crop-exact` on the command line, `crop_exact` in a server request and
       a checkbox in the plug-in's Identify dialog (ADR 0003 §1). Whether the option makes the
       two systems agree is item 13.
-13. **Does `--crop-exact` make the Mac and the PC agree? Open: the Linux box first, then the
-    Mac** (added 2026-11-15, follows item 12). With `--crop-exact` ultralytics resizes the
+13. **Does `--crop-exact` make the Mac and the PC agree? Open: the Mac's part. The Linux
+    box's part is made** (added 2026-11-15, follows item 12; what the Linux box found is in
+    the last two points below). With `--crop-exact` ultralytics resizes the
     photo for the detector with OpenCV's `INTER_LINEAR_EXACT`, which is meant to give the same
     pixels on every system. That is OpenCV's claim. This item measures it, and what the option
     changes on each machine.
@@ -681,6 +682,29 @@ Rules:
       does what its name says, and the texts that say "meant to" (`--help`, the checkbox's
       title and tooltip in the plug-in, the README, the website) can say "is". If not, the
       option does not deliver what it is for, and the owner decides what becomes of it.
+    - **Made 2026-11-15, the Linux box's part.** On current `main`, in a fresh clone of the
+      public repository, the environment built anew from the lock. The engine has the new
+      option and the commits of the earlier runs are not in the repository's history, so a
+      control came first: the earlier commands again, without the option, give item 12's
+      two checksum files row for row and the eight crop runs of items 9 and 10 in every
+      field of all 4,080 results (`control-item13/` in the folder). Then the script and the
+      ten commands as above, next to the earlier files, which are unchanged; `MANIFEST.txt`
+      has a fifth section. Every file is as expected above. The option against the default
+      (`exact-comparison.txt`): the image handed to the detector is the same on all 863 JPGs
+      and 157 RAW files, and **the letterboxed image differs on every one of them**, in
+      about 11 % of its values, each by 1 (`exact-pixel-difference.txt`). In the runs the
+      crop is not the same on 231 of the 863 JPGs and 57 of the 157 RAW files in TF32, 228
+      and 55 in fp32, mostly by a pixel or two; 43 of the 2,040 top-1 answers differ in
+      TF32 and 41 in fp32, and 37 and 35 of those are review frames in both runs. That is
+      about what separates the Mac and the PC without the option (281 JPG crops, 10 RAW
+      crops, 38 answers). Measured as well, though not asked: against the folder names
+      1,035 of 1,448 scored answers are right with the option and 1,044 without it, ten
+      right without it only and one with it only; and under the option fp32 and TF32 still
+      differ on 25 JPG crops, 6 RAW crops and 5 answers. Log: `docs/acceptance.md`.
+    - **For the Mac's part.** The folder holds this part's scripts (`verify-item13.py`,
+      `exact-compare.py`, `exact-pixels.py`, `bench.py`). The Mac's default runs were made
+      before the option existed, like the Linux box's: a control of the same kind shows
+      whether they still stand for the default path there.
 
 ---
 
