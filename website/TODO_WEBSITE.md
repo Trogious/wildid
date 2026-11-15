@@ -101,10 +101,10 @@ Still needed before a visitor can rely on it:
       plugin loading by itself from the `Modules` folder, the Identify dialog's memory line
       ("Apple M5 Pro, unified memory: 40.2 GB usable"), the engine starting from the plugin.
       Correct the guide in `index.html` if one of them turns out differently.
-- [ ] **The exact detector resize.** `hardware.html` and `command-line.html` say the option
+- [x] **The exact detector resize.** `hardware.html` and `command-line.html` said the option
       is "meant to" give the same pixels on every computer. Backlog item 13 in
-      `species-id-mvp-plan.md` measures that on the Mac and the Linux box: afterwards say
-      what was found.
+      `species-id-mvp-plan.md` measured that on the Mac and the Linux box. *(2026-11-15: it
+      does; the two pages say what was found.)*
 - [ ] Optional: screenshots of the Mac installation, `mac-terminal-install.png` (the installer
       running in Terminal) and `mac-wizard-done.png` (the wizard at "Setup complete"). The
       guide has no pictures of its own so far; add the two `<figure>` blocks with them.

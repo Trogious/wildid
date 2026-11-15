@@ -63,7 +63,7 @@ uv run wildid photos/ --continent Africa --taxa Mammalia,Reptilia
 uv run wildid photos/ --place-id 8239                   # iNaturalist place id, skips name lookup
 uv run wildid photos/ --model bioclip-2 --k 5 --ext jpg,jpeg,arw --batch-size 32
 uv run wildid photos/ --crop                            # MegaDetector finds the animal, BioCLIP sees the crop
-uv run wildid photos/ --crop --crop-exact               # exact resize before the detector, meant to be the same on every system
+uv run wildid photos/ --crop --crop-exact               # exact resize before the detector: the same pixels on a Mac and a PC
 uv run wildid photos/ --second-opinion --country Kenya  # + SpeciesNet verdict per frame (implies --crop)
 uv run wildid photos/ --precision fp16                  # fastest; may change ~0.5 % of top-1 answers
 uv run wildid photos/ --format json --output run.json   # machine-readable results incl. suggested keywords
@@ -104,15 +104,18 @@ to the full frame, and the block says which happened:
   crop: animal 0.93 → 1412×1090 px
 ```
 
-`--crop-exact` (with `--crop`, off by default) is there to make the resize before the detector
-the same on every system. ultralytics reduces each photo to the detector's size with OpenCV's
+`--crop-exact` (with `--crop`, off by default) makes the resize before the detector the same
+on a Mac and a PC. ultralytics reduces each photo to the detector's size with OpenCV's
 bilinear resize, and OpenCV's build for Arm computes that with its own code: the detector's
 input then differs by 1 in about a fifth of its values between a Mac and a PC, the box moves
 by a pixel or two on about a third of the JPGs, and about 2 % of the cropped photos get
-another name, most of them review frames on both (`docs/acceptance.md`, 2026-11-15). With the
-flag the resize is OpenCV's `INTER_LINEAR_EXACT`, which is meant to give the same pixels
-everywhere. A few answers change against a run without it. Whether it makes the two systems
-agree has still to be measured (backlog item 13 in `species-id-mvp-plan.md`). In JSON output
+another name, most of them review frames on both. With the flag the resize is OpenCV's
+`INTER_LINEAR_EXACT`. Measured on 1,020 photos between the Mac and the Linux box
+(`docs/acceptance.md`, 2026-11-15): the detector then computes on the same pixels on both,
+and with fp32 on both every crop and all 2,040 answers are the same; against the PC's
+default TF32, 31 crops and 5 answers still differ. Windows was not part of the measurement.
+The flag is not a gain in accuracy, and on either machine it changes about 2 % of the answers
+against a run without it: it is for when two computers have to agree. In JSON output
 `crop_resize` says which resize a run used: `linear`, `exact`, or `null` without the crop.
 
 `--second-opinion` additionally classifies the crop with SpeciesNet (Google's camera-trap

@@ -1464,6 +1464,8 @@ same day (ADR 0003 §1, ADR 0005 decision 3).
   checklists. And the claim itself, that the option gives the same pixels and so the same crop
   on a Mac and on a PC, is OpenCV's and is not measured yet: backlog item 13. Until then
   `--help`, the checkbox's title and tooltip, the README and the website say "meant to".
+  *(Measured the same day: "macOS: the exact detector resize against the Linux box", below.
+  The texts were changed with it.)*
 
 ## Linux: the exact detector resize against the default (2026-11-15)
 
@@ -1478,8 +1480,8 @@ Linux box only.
 
 - **A control first.** Items 9 to 12 could say that nothing under `src/` differed from the
   commit of the runs before them. This item cannot: the engine has the new option, and the
-  commits of the earlier runs are not in the public repository's history, so there is nothing
-  to compare with. Instead the earlier commands were repeated on this commit without the
+  code of the earlier runs was not at hand to compare with. Instead the earlier commands
+  were repeated on this commit without the
   option: the item's script with no extra argument, and the eight default crop runs of items
   9 and 10. The two checksum files equal item 12's row for row. The eight runs equal the
   earlier ones in every field of all 4,080 results; the documents differ only in their new
@@ -1581,4 +1583,79 @@ Linux box only.
   the four crop runs with `--crop-exact` are made, and the comparison that decides: is the
   letterboxed checksum with the option the same on both machines on every photo, and do the
   Mac's runs give the crops and answers of this box's `-crop-exact-fp32` runs? Until then
-  every text about the option says "meant to".
+  every text about the option says "meant to". *(Made the same day: next section.)*
+
+## macOS: the exact detector resize against the Linux box (2026-11-15)
+
+The Mac's part of backlog item 13 (`species-id-mvp-plan.md` §10), the part that decides:
+does `--crop-exact` make the Mac and the PC agree? **It does.** Version 0.3.1, current
+`main`, clean tree, in the checkout with uv (uv's Python 3.14.10, torch 2.14.1, OpenCV
+5.0.0); the M5 Pro, MPS, fp32. All 1,020 photos match `samples.sha256`, and the sample
+folders are unchanged after the runs. Driver, comparison script and outputs are in
+`~/.cache/wildid-acceptance/2026-11-15-macos-exact/` (`driver-item13-mac.sh`,
+`mac-exact-compare.py`, `mac-exact-comparison.txt`); the Linux box's files are in
+`~/.cache/wildid-acceptance/cuda-reference/`.
+
+- **A control first**, as on the Linux box: the Mac's default runs were made before the
+  option existed. On this commit, without the option, the item's script gives item 12's two
+  checksum files of the Mac row for row, and the four default crop runs equal the earlier
+  ones in every field of all 2,040 results; the documents differ only in their new head
+  field `crop_resize`, which says `linear`. So what differs below is the option's doing.
+- **With the option the detector computes on the same pixels on both machines.** The
+  letterboxed image by checksum, the script with `--crop-exact` on the Mac against the Linux
+  box's file, and the other pairs for comparison:
+
+  | Letterboxed image the same on | `sample-jpg`, 863 | `sample-arw`, 157 |
+  |---|---|---|
+  | the Mac with the option and the Linux box with the option | 863 | 157 |
+  | the Mac and the Linux box, both without it | 0 | 133 |
+  | the Mac with the option and the Mac without it | 0 | 0 |
+  | the Linux box with the option and the Linux box without it | 0 | 0 |
+
+  The image handed to the detector is the same on every photo in all of them, as before.
+- **The runs give the same crops and the same answers.** The Mac's four runs with
+  `--crop-exact` against the Linux box's:
+
+  | The Mac with the option against | Crop not the same, of 863 JPGs | Of 157 RAW files | Top-1 answers that differ, of 2,040 | Of those, review frames in both |
+  |---|---|---|---|---|
+  | the Linux box with the option, fp32 | 0 | 0 | 0 | |
+  | the Linux box with the option, TF32 | 25 | 6 | 5 | 5 |
+  | for scale, both without the option, the Linux box in fp32 | 281 | 10 | 38 | 32 |
+  | for scale, both without the option, the Linux box in TF32 | 279 | 13 | 37 | 31 |
+
+  With fp32 on both, no crop size, no detection and no review flag differs on any of the
+  2,040 results. The detector's confidence agrees to 0.000004 and the top-1 scores to
+  0.0002, which is what the two machines give without the crop. Against TF32 the crop's size
+  differs by 1 px on 20 JPGs and 6 RAW files and by 2 px on 5 JPGs, and 2, 2, 0 and 1
+  answers differ: exactly what TF32 against fp32 gives on the Linux box itself under the
+  option (its log above: 25 and 6 crop sizes, 5 answers). So what is left between a Mac and
+  a PC in its default precision is the precision, not the resize.
+- **What the option changes on the Mac**, each run with it against the control run without
+  it: the crop is not the same on 269 of the 863 JPGs and 54 of the 157 RAW files. On the
+  JPGs the size differs on 265 of the 760 frames detected in both runs, by 1 px on 131, by
+  2 px on 78, by 3 to 10 px on 41 and by more on 15, and 4 frames have a detection in one
+  run only; on the RAW files it differs on 54 of 137, by 1 px on 23, by 2 px on 13, by 3 to
+  10 px on 13 and by more on 5. The detector's confidence moves by 0.0014 at the median and
+  0.054 at most on the JPGs, by 0.0013 and 0.027 on the RAW files. Top-1 answers that
+  differ: 14 and 19 of 863 (bioclip-2, bioclip-2.5), 5 and 11 of 157: 49 of 2,040, 40 of
+  them review frames in both runs, 9 with a score of 0.5 or more in at least one run. On the
+  Linux box the option changes 41 answers in fp32.
+- **Against the folder names** (not asked by the item; the truth table of `bench.py`, as in
+  the Linux box's log): with the option 404 and 379 of the 569 scored JPG answers and 136
+  and 116 of the 155 scored RAW answers are right, 1,035 of 1,448, the Linux box's figures
+  with the option, as they must be with the same answers. Without it the Mac has 401, 379,
+  136 and 117: 1,033. Five answers are right with the option only and three without it
+  only. On the Linux box it was 1,035 against 1,044. So the option moves answers both ways
+  and is not a gain in accuracy on these photos.
+- **Speed.** 21.0, 13.4, 15.6 and 11.1 img/s with the option against 21.6, 13.6, 15.6 and
+  11.1 in the control.
+- **What follows.** The option does what its name says, so the texts that said "meant to"
+  now say what was measured: `--help`, the checkbox's title ("Exact detector resize (the
+  same on a Mac and a PC)") and tooltip, the READMEs, the website, `CLAUDE.md`. They also
+  say what it costs: about 2 % of the answers change against a run without it on either
+  machine, and a PC in its default TF32 still differs from the Mac on about 0.2 % of the
+  answers. The default stays off: making the option a default is the owner's decision (ADR
+  0003 §1).
+- **Not measured.** Windows: the comparison is between the Mac and the Linux box. Any other
+  Mac. And the checkbox has still not been seen in Lightroom: its box in both acceptance
+  checklists is open.

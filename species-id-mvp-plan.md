@@ -601,9 +601,10 @@ Rules:
       off by default: `--crop-exact` on the command line, `crop_exact` in a server request and
       a checkbox in the plug-in's Identify dialog (ADR 0003 §1). Whether the option makes the
       two systems agree is item 13.
-13. **Does `--crop-exact` make the Mac and the PC agree? Open: the Mac's part. The Linux
-    box's part is made** (added 2026-11-15, follows item 12; what the Linux box found is in
-    the last two points below). With `--crop-exact` ultralytics resizes the
+13. **Does `--crop-exact` make the Mac and the PC agree? Done 2026-11-15: yes.** With the
+    option the detector computes on the same pixels on both, and with fp32 on both every
+    crop and answer is the same (added 2026-11-15, follows item 12; what the two machines
+    found is in the last points below). With `--crop-exact` ultralytics resizes the
     photo for the detector with OpenCV's `INTER_LINEAR_EXACT`, which is meant to give the same
     pixels on every system. That is OpenCV's claim. This item measures it, and what the option
     changes on each machine.
@@ -684,7 +685,7 @@ Rules:
       option does not deliver what it is for, and the owner decides what becomes of it.
     - **Made 2026-11-15, the Linux box's part.** On current `main`, in a fresh clone of the
       public repository, the environment built anew from the lock. The engine has the new
-      option and the commits of the earlier runs are not in the repository's history, so a
+      option, and the code of the earlier runs was not at hand to compare with, so a
       control came first: the earlier commands again, without the option, give item 12's
       two checksum files row for row and the eight crop runs of items 9 and 10 in every
       field of all 4,080 results (`control-item13/` in the folder). Then the script and the
@@ -705,6 +706,25 @@ Rules:
       `exact-compare.py`, `exact-pixels.py`, `bench.py`). The Mac's default runs were made
       before the option existed, like the Linux box's: a control of the same kind shows
       whether they still stand for the default path there.
+    - **Made 2026-11-15, the Mac's part: the two machines agree.** The control first: on
+      current `main`, without the option, the script gives item 12's two checksum files of
+      the Mac row for row and the four default crop runs in every field of all 2,040
+      results. Then the script and the four crop runs with `--crop-exact` (MPS, fp32), in
+      `~/.cache/wildid-acceptance/2026-11-15-macos-exact/` (`mac-exact-comparison.txt`).
+      **With the option the letterboxed image has the same checksum on the Mac and on the
+      Linux box on all 863 JPGs and all 157 RAW files.** Against the Linux box's
+      `-crop-exact-fp32` runs no crop and none of the 2,040 top-1 answers differs; the
+      detector's confidence agrees to 0.000004 and the scores to 0.0002, as without the
+      crop. Against its `-crop-exact` runs in TF32 the crop's size differs on 25 JPGs and 6
+      RAW files and 5 answers differ, all review frames in both: that is what TF32 does on
+      the Linux box itself. Without the option the same comparisons give 281 JPG crops, 10
+      RAW crops and 38 answers (fp32), 279, 13 and 37 (TF32). On the Mac the option changes
+      the crop on 269 of 863 JPGs and 54 of 157 RAW files and 49 of 2,040 answers against
+      its default, 40 of them review frames in both runs. Against the folder names 1,035 of
+      1,448 scored answers are right with the option, as on the Linux box, and 1,033
+      without it on the Mac. So the option does what its name says, and the texts no longer
+      say "meant to": they say what was measured, and that it is not a gain in accuracy.
+      The default stays off (ADR 0003 §1). Not measured: Windows. Log: `docs/acceptance.md`.
 
 ---
 

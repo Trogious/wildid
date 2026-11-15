@@ -176,10 +176,10 @@ The Windows items, once each on the Mac (V7; details and expected results are in
       and class sets a move emptied; smart collections and the chosen set stay.
 - [ ] "WildID: mark as reviewed": the selected flagged photos leave `_review`, lose
       `WildID|review` and show status `reviewed`; Edit → Undo puts keyword and membership back.
-- [ ] Exact detector resize *(added 2026-11-15)*: the checkbox "Exact detector resize (meant
-      to be the same on every computer)" under the crop row is off the first time, greyed
-      while the crop and the second opinion are both off, and keeps its state between runs.
-      Its title is not clipped. A run with it on finishes as usual.
+- [ ] Exact detector resize *(added 2026-11-15)*: the checkbox "Exact detector resize (the
+      same on a Mac and a PC)" under the crop row is off the first time, greyed while the
+      crop and the second opinion are both off, and keeps its state between runs. Its title
+      is not clipped. A run with it on finishes as usual.
 - [ ] Dialogs, the bezel message and combo boxes look right on macOS (fonts, widths, no
       clipped text). Note anything that reads badly.
 

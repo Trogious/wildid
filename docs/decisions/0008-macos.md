@@ -180,11 +180,12 @@ Method and every figure: `docs/acceptance.md`.
   resize before the detector, where the Mac's OpenCV uses Arm-specific code and the Linux
   box the portable algorithm. Decided by the owner on 2026-11-15: the default stays, and a
   resize meant to be the same everywhere is an option, `--crop-exact` and a checkbox in the
-  plug-in, off by default (ADR 0003 §1). Open: the measurement that the option makes the two
-  systems agree (`species-id-mvp-plan.md` §10, item 13). *(The Linux box's half of item 13
-  is made, 2026-11-15: what the option changes on a PC, in `docs/acceptance.md`. The Mac's
-  half, which decides, is open.)* The three decisions the measurement
-  left to the owner were all taken on 2026-11-15 (decisions 4, 5 and 8).
+  plug-in, off by default (ADR 0003 §1). Measured the same day (`species-id-mvp-plan.md`
+  §10, item 13; `docs/acceptance.md`): with the option the two systems compute on the same
+  pixels on all 1,020 photos and give the same crops and answers with fp32 on both; against
+  the PC's default TF32, 31 crops and 5 of 2,040 answers differ. So this point is closed. The
+  three decisions the measurement left to the owner were all taken on 2026-11-15 (decisions
+  4, 5 and 8).
 - Found by the first CI run and closed the same day (2026-11-15; `docs/acceptance.md`):
   decision 6 said "a uv-managed Python", but uv took an installed Python 3.14 when the Mac
   had one, as the CI runner and the owner's Mac both do (Homebrew), and downloaded its own

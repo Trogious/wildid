@@ -120,8 +120,8 @@ def run_document(
     crop_resize: str | None = None,
 ) -> dict:
     """`crop_resize` is how the photos were resized for the detector: "linear" (the
-    platform's OpenCV), "exact" (OpenCV's exact method, meant to be the same on every
-    system) or None without the crop stage."""
+    platform's OpenCV), "exact" (OpenCV's exact method, the same on a Mac and a PC) or
+    None without the crop stage."""
     return {
         "wildid": __version__,
         "protocol": PROTOCOL,

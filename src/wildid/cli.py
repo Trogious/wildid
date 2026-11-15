@@ -361,9 +361,10 @@ def classify(
         typer.Option(
             "--crop-exact",
             help="With --crop: resize the photo for the detector with OpenCV's exact method, "
-            "meant to be the same on every system. By default the platform's OpenCV resizes, "
-            "and a Mac and a PC then name about 2 % of the cropped photos differently. A few "
-            "answers change against a run without it.",
+            "which gives the same pixels on a Mac and a PC. By default the platform's OpenCV "
+            "resizes, and a Mac and a PC then name about 2 % of the cropped photos differently; "
+            "with this, about 0.2 %, and none when the PC runs --precision fp32. About 2 % of "
+            "the answers change against a run without it.",
             rich_help_panel=STAGES_PANEL,
         ),
     ] = False,

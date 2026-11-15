@@ -197,7 +197,7 @@ the map; catalog positions win over EXIF) or use phone DNGs — the Pixel DNG in
       drive without a Smart Preview are counted as "offline without a Smart Preview".
 
 - [ ] Exact detector resize *(added 2026-11-15, not run in Lightroom)*: the Identify dialog
-      has the checkbox "Exact detector resize (meant to be the same on every computer)" under
+      has the checkbox "Exact detector resize (the same on a Mac and a PC)" under
       the crop row. It is off the first time, greyed while "Detector crop" and "SpeciesNet
       second opinion" are both off, has a tooltip, and keeps its state between runs like the
       other options. Its title is not clipped. A run with it on finishes as usual. The engine

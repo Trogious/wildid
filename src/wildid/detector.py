@@ -100,12 +100,13 @@ def ultralytics_device(device: str) -> int | str:
 @contextlib.contextmanager
 def exact_resize():
     """While active, ultralytics resizes a photo to the detector's size with OpenCV's
-    INTER_LINEAR_EXACT, the bilinear resize that is meant to give the same pixels on every
-    processor. Its default, INTER_LINEAR, does not: OpenCV's Arm build computes it with its
-    own code, the detector's input then differs by 1 in about a fifth of the values between
-    a Mac and a PC, and about 2 % of the cropped photos get another name (acceptance
-    2026-11-15). ultralytics' LetterBox takes the interpolation as an argument that its
-    predictor never passes; this swaps the class the predictor builds for one that does."""
+    INTER_LINEAR_EXACT, the bilinear resize that gives the same pixels on an Arm Mac and an
+    x86-64 PC (measured on 1,020 photos, acceptance 2026-11-15). Its default, INTER_LINEAR,
+    does not: OpenCV's Arm build computes it with its own code, the detector's input then
+    differs by 1 in about a fifth of the values between a Mac and a PC, and about 2 % of the
+    cropped photos get another name. ultralytics' LetterBox takes the interpolation as an
+    argument that its predictor never passes; this swaps the class the predictor builds for
+    one that does."""
     import cv2
     from ultralytics.engine import predictor
 
@@ -154,9 +155,9 @@ class Detector:
     ) -> list[Detection | None]:
         """Best animal box per image, in input order; predict() sees at most DETECT_BATCH
         images at a time so GPU memory stays bounded whatever the caller's chunk size.
-        `exact` resizes the photos for the detector with OpenCV's exact method, meant to be
-        the same on every system (exact_resize); the default leaves the resize to the
-        platform's OpenCV."""
+        `exact` resizes the photos for the detector with OpenCV's exact method, the same on
+        a Mac and a PC (exact_resize); the default leaves the resize to the platform's
+        OpenCV."""
         out: list[Detection | None] = []
         if not images:
             return out

@@ -99,9 +99,10 @@ machine-readable output and XMP keyword write-back.
    `crop_exact`, and the run document gains `crop_resize` (`linear`, `exact`, or `null`
    without the crop). Both are additions: `protocol` stays 1, an older server ignores the
    key and an older plug-in never sends it. The Identify dialog has the checkbox "Exact
-   detector resize (meant to be the same on every computer)", off by default, enabled when
-   the crop or the second opinion is on. The server keeps one loaded detector for both kinds
-   of request.
+   detector resize (the same on a Mac and a PC)", off by default, enabled when the crop or
+   the second opinion is on (the title said "meant to be the same on every computer" until
+   backlog item 13 had measured it, the same day). The server keeps one loaded detector for
+   both kinds of request.
 4. **XMP sidecars are pre-import and RAW-only** (`--write-xmp`): Lightroom reads sidecars only
    for proprietary RAW; JPEG/TIFF/DNG embed XMP and wildid never modifies photo files. Default
    `new-only` skips existing sidecars (they carry develop settings); `--xmp-mode merge`

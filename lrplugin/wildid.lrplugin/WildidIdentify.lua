@@ -153,14 +153,14 @@ local function buildContents(f, props, photoCount, gpu)
         },
         f:row {
             f:checkbox {
-                title = 'Exact detector resize (meant to be the same on every computer)',
+                title = 'Exact detector resize (the same on a Mac and a PC)',
                 value = bind 'cropExact',
                 enabled = bind 'anyCrop',
-                tooltip = 'Resizes each photo for the detector with a method that is meant to '
-                    .. 'give the same result on every computer. Off, the computer\'s own '
-                    .. 'method is used, and a Mac and a PC then name about 2 % of the '
-                    .. 'cropped photos differently. On, a few names change against a run '
-                    .. 'with it off.',
+                tooltip = 'Resizes each photo for the detector with a method that gives the '
+                    .. 'same result on a Mac and a PC. Off, the computer\'s own method is '
+                    .. 'used, and a Mac and a PC then name about 2 % of the cropped photos '
+                    .. 'differently; on, about 0.2 %. Turning it on changes about 2 % of the '
+                    .. 'names against a run with it off.',
             },
         },
         f:row {

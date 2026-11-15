@@ -59,7 +59,16 @@ detector's input values differ by 1, and it changes the crop on 231 of 863 JPGs 
 RAW files and 43 of 2,040 answers, 37 of them review frames with and without it. So as a
 default it would change the accepted results on a PC by about as much as the Mac differs from
 the PC today. Under the option TF32 and fp32 differ on 31 crops and 5 answers. Whether the two
-systems agree with it is the Mac's part, still open.)*
+systems agree with it is the Mac's part, still open.)* *(The Mac's part of item 13, the same
+day: **they agree.** With the option the detector computes on the same pixels on the Mac and
+on the Linux box on all 1,020 photos, and with fp32 on both every crop and all 2,040 answers
+are the same; scores agree to 0.0002, as without the crop. Against the PC's default TF32, 31
+crops and 5 answers differ, which is the precision's own effect. On the Mac the option
+changes the crop on 269 of 863 JPGs and 54 of 157 RAW files and 49 of 2,040 answers against
+the default. It is not a gain in accuracy: against the folder names 1,035 of 1,448 scored
+answers are right with it on both machines, 1,044 on the PC and 1,033 on the Mac without it.
+The decision stands: the default stays, the option is for when two computers have to agree.
+Windows was not part of the measurement.)*
 
 **Weights and offline:** `wildid prefetch --crop [--detector …]` downloads the `.pt` from the
 Zenodo record PytorchWildlife uses (sha256 pinned in `detector.py`) into

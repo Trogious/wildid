@@ -65,12 +65,13 @@ Menu entries (Library menu and File → Plug-in Extras):
   dry run), then chunked
   classification with progress and cancel. Whole chunks commit atomically; a cancel never
   leaves a half-written chunk.
-  "Exact detector resize (meant to be the same on every computer)" is off by default and
-  sends `crop_exact` with the request: the photo is reduced for the detector with OpenCV's
-  exact resize, where the default leaves it to the computer's own OpenCV, which makes a Mac
-  and a PC name about 2 % of the cropped photos differently. It is enabled when the crop or
-  the second opinion is on. That it gives the same on a Mac and a PC is not measured yet
-  (backlog item 13 in `species-id-mvp-plan.md`).
+  "Exact detector resize (the same on a Mac and a PC)" is off by default and sends
+  `crop_exact` with the request: the photo is reduced for the detector with OpenCV's exact
+  resize, where the default leaves it to the computer's own OpenCV, which makes a Mac and a
+  PC name about 2 % of the cropped photos differently. With it the two differed on about
+  0.2 % (measured on 1,020 photos, `docs/acceptance.md`, 2026-11-15; what is left comes from
+  the PC's default precision). Turning it on changes about 2 % of the names against a run
+  with it off. It is enabled when the crop or the second opinion is on.
 - **WildID: mark as reviewed** (needs a selection) — clears every review marker on the
   selected photos: they leave the `_review` collection under the set Identify files into, the
   `<root>|review` keyword comes off, and a WildID status of `review` becomes `reviewed` (so a
