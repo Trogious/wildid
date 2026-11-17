@@ -1,0 +1,141 @@
+➜ ./install.sh
+WildID 0.3.2 on macOS 26.5.1 (Apple M5 Pro)
+Installing into /Users/trog/Library/Application Support/WildID
+Lightroom plug-in: /Users/trog/Library/Application Support/Adobe/Lightroom/Modules/wildid.lrplugin
+Downloading the Python environment (about 1.2 GB on disk; needs the network)...
+Using CPython 3.14.10
+Creating virtual environment at: /Users/trog/Library/Application Support/WildID/app/.venv
+      Built wildid @ file:///Users/trog/Library/Application%20Support/WildID/app                                                                                                                                                                                                                 Prepared 77 packages in 4.73s
+Installed 77 packages in 246ms
+ + annotated-doc==0.0.5
+ + anyio==4.15.1
+ + certifi==2026.10.23
+ + charset-normalizer==3.5.2
+ + click==8.5.0
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + exifread==3.5.1
+ + filelock==4.2.4
+ + fonttools==4.67.0
+ + fsspec==2026.9.0
+ + ftfy==6.3.1
+ + h11==0.16.0
+ + hf-xet==1.7.0
+ + httpcore==1.0.9
+ + httpcore2==2.16.0
+ + httpx==0.28.1
+ + httpx2==2.16.0
+ + huggingface-hub==2.3.0
+ + idna==3.20
+ + iniconfig==2.3.1
+ + jinja2==3.1.6
+ + kiwisolver==1.5.1
+ + markdown-it-py==4.2.0
+ + markupsafe==3.0.4
+ + matplotlib==3.11.2
+ + mdurl==0.1.2
+ + ml-dtypes==0.6.0
+ + mpmath==1.3.0
+ + networkx==3.7
+ + numpy==2.5.4
+ + nvidia-ml-py==13.615.71
+ + onnx==1.23.2
+ + onnx2torch==1.5.15
+ + open-clip-torch==3.3.0
+ + opencv-python==5.0.0.93
+ + packaging==26.3
+ + pandas==3.1.0
+ + pillow==13.0.0
+ + platformdirs==4.13.5
+ + pluggy==1.7.0
+ + polars==2.0.0
+ + polars-runtime-32==2.0.0
+ + prettytable==3.18.0
+ + protobuf==7.36.2
+ + psutil==7.2.2
+ + pybioclip==2.1.6
+ + pygments==2.21.0
+ + pyparsing==3.3.3
+ + pytest==9.1.1
+ + python-dateutil==3.0.0
+ + pyyaml==6.0.3
+ + rawpy==0.27.1
+ + regex==2026.9.29
+ + requests==2.34.2
+ + responses==0.26.3
+ + rich==15.0.0
+ + ruff==0.17.2
+ + safetensors==0.8.0
+ + setuptools==84.2.1
+ + shellingham==1.5.4
+ + six==1.17.0
+ + sympy==1.14.0
+ + timm==1.0.30
+ + torch==2.14.1
+ + torchvision==0.29.1
+ + tqdm==4.70.1
+ + truststore==0.10.5
+ + typer==0.27.3
+ + typing-extensions==4.16.0
+ + tzdata==2026.5
+ + ultralytics==8.4.184
+ + ultralytics-platform==0.1.92
+ + ultralytics-thop==2.2.3
+ + urllib3==2.8.0
+ + wcwidth==0.9.3
+ + wildid==0.3.2 (from file:///Users/trog/Library/Application%20Support/WildID/app)
+Python environment ready.
+Put the wildid commands on your PATH (adds one line to ~/.zprofile)? [Y/n] n
+PATH: left alone. The commands work by full path, as shown below.
+
+Installed. Next, run the setup wizard (model download and offline check):
+    "/Users/trog/Library/Application Support/WildID/bin/wildid-setup"
+Then in Lightroom Classic: select photos, Library > Plug-in Extras > Identify species with WildID.
+Uninstall later with:  bash "/Users/trog/Library/Application Support/WildID/uninstall.sh"
+trog@desktop: ~/Downloads/WildID-0.3.2-macos-arm64
+➜ "/Users/trog/Library/Application Support/WildID/bin/wildid-setup"
+WildID setup — one-time download of the model and data.
+
+Hugging Face token (optional). Every file WildID downloads is public: no account is needed.
+  A token only helps if Hugging Face slows down or refuses anonymous downloads; a read token
+  can be created at https://huggingface.co/settings/tokens
+  Press Enter to continue without one.
+Hugging Face token (Enter to skip):
+No token: downloading anonymously.
+Model to download (bioclip-2 | bioclip-2.5 | all) [bioclip-2]: all
+Also fetch the MegaDetector crop stage (recommended for wildlife)? [Y/n]:
+Also fetch SpeciesNet (second opinion, mammals)? [y/N]: y
+Prefetch a species list for a destination? [Y/n]:
+  Country: Brazil
+  Region within it (empty = whole country): Mato Grosso
+Prefetch a species list for a destination? [y/N]:
+
+Downloading — the model alone is gigabytes; this can take a while.
+
+INFO     prefetch bioclip-2: model imageomics/bioclip-2
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING  Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO     prefetch bioclip-2: TreeOfLife embeddings imageomics/TreeOfLife-200M/embeddings/txt_emb_species.npy
+INFO     prefetch bioclip-2: 4.47 GB in cache (0 s)
+INFO     prefetch bioclip-2.5: model imageomics/bioclip-2.5-vith14
+INFO     prefetch bioclip-2.5: TreeOfLife embeddings imageomics/TreeOfLife-200M/embeddings/txt_emb_bioclip-2.5-vith14.npy
+INFO     prefetch bioclip-2.5: 7.28 GB in cache (0 s)
+INFO     geo fetch: Brazil › Mato Grosso / Mammalia, 154 species
+INFO     geo fetch: Brazil › Mato Grosso / Reptilia, 225 species
+INFO     geo fetch: Brazil › Mato Grosso / Amphibia, 126 species
+INFO     geo fetch: Brazil › Mato Grosso / Aves, 826 species
+INFO     geo list Brazil › Mato Grosso: 1331 species (Mammalia 154, Reptilia 225, Amphibia 126, Aves 826)
+INFO     geo ready: Brazil › Mato Grosso, 1331 species (Mammalia 154, Reptilia 225, Amphibia 126, Aves 826), fetched 2026-11-16
+INFO     GBIF synonyms: 70 of 117 unmatched names now map to a model name (115 new lookups, 0 skipped, 52 s)
+INFO     MDV6-yolov9-c.pt already in cache
+INFO     SpeciesNet already in cache (/Users/trog/Library/Caches/wildid/models/speciesnet-v4.0.3a)
+INFO     verify bioclip-2 offline: wildid classify /var/folders/kj/5vgqvt3j7sb80vl86z8yzphh0000gp/T/wildid-verify-4tbvp3ko/probe.jpg --model bioclip-2 --device auto --offline --k 1 --crop --detector mdv6-yolov9-c --second-opinion
+INFO     verify bioclip-2 offline: ok
+INFO     verify bioclip-2.5 offline: wildid classify /var/folders/kj/5vgqvt3j7sb80vl86z8yzphh0000gp/T/wildid-verify-gd8fqhvp/probe.jpg --model bioclip-2.5 --device auto --offline --k 1 --crop --detector mdv6-yolov9-c --second-opinion
+INFO     verify bioclip-2.5 offline: ok
+prefetch complete: bioclip-2, bioclip-2.5, detector, speciesnet
+
+Setup complete. Next steps:
+  - Lightroom: select photos → Library → “Identify species with WildID…”
+  - Before a trip: run `wildid setup` (or `wildid prefetch`) again for the destination's species list.
+  - Pre-import keywording without Lightroom: `wildid <card-folder> --write-xmp --country <X>`
