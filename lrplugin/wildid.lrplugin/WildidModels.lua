@@ -76,6 +76,11 @@ M.MIN_VRAM_FOR_BOTH_GB = 20
 -- live in the same memory: both models hold 20.1 GB there, so the 20 GB gate would pass a Mac
 -- with nothing to spare. The gate is 30 GB of that reported figure.
 M.MIN_UNIFIED_FOR_BOTH_GB = 30
+-- The reptile warning follows the Candidates mode, because the advice does: the taxa belong to a
+-- place list, so with the full TreeOfLife there is none to take Reptilia out of (the dialog greys
+-- the Taxa field out there) and only the other model helps.
+M.REPTILE_WARNING_UNFILTERED = 'bioclip-2.5 has no reptiles: a reptile in this shoot gets a '
+    .. 'confident wrong species. Pick bioclip-2 for reptiles.'
 M.REPTILE_WARNING = 'bioclip-2.5 has no reptiles: a reptile in this shoot gets a confident '
     .. 'wrong species. Pick bioclip-2, or exclude Reptilia from the taxa.'
 M.REPTILE_WARNING_GPS = 'bioclip-2.5 has no reptiles: photos without a GPS fix (or in a cell '
@@ -140,9 +145,12 @@ end
 
 function M.warningFor(model, geoMode, taxa)
     if model ~= 'bioclip-2.5' then return '' end
-    if M.reptilesPossible(geoMode, taxa) then return M.REPTILE_WARNING end
+    local mode = normaliseMode(geoMode)
+    -- the full TreeOfLife: no place list, so no taxa to edit, whatever the greyed-out field holds
+    if mode == 'none' then return M.REPTILE_WARNING_UNFILTERED end
+    if M.reptilesPossible(mode, taxa) then return M.REPTILE_WARNING end
     -- per-photo GPS: photos without a fix, or in a cell nobody prefetched, run unfiltered
-    if normaliseMode(geoMode) == 'gps' then return M.REPTILE_WARNING_GPS end
+    if mode == 'gps' then return M.REPTILE_WARNING_GPS end
     return ''
 end
 

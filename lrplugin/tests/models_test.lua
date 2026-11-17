@@ -84,7 +84,20 @@ check(Models.warningFor('bioclip-2.5', true, 'Mammalia,Reptilia,Aves') ~= '', '2
 check(Models.warningFor('bioclip-2.5', true, 'mammalia, reptilia') ~= '', 'case-insensitive taxa')
 check(Models.warningFor('bioclip-2.5', true, 'Mammalia,Aves') == '', '2.5 with reptiles excluded: quiet')
 check(Models.warningFor('bioclip-2', false, '') == '', 'bioclip-2 never warns')
-check(Models.warningFor('bioclip-2.5', 'none', 'Mammalia') == Models.REPTILE_WARNING, "mode 'none' warns")
+check(Models.warningFor('bioclip-2.5', 'none', 'Mammalia') == Models.REPTILE_WARNING_UNFILTERED,
+    "mode 'none' warns")
+-- the advice follows the mode: the taxa belong to a place list, and the dialog greys the Taxa
+-- field out with the full TreeOfLife, so that text names the other model only
+check(Models.warningFor('bioclip-2.5', 'none', 'Mammalia,Reptilia') == Models.REPTILE_WARNING_UNFILTERED
+    and Models.warningFor('bioclip-2.5', false, '') == Models.REPTILE_WARNING_UNFILTERED
+    and Models.warningFor('bioclip-2.5', nil, nil) == Models.REPTILE_WARNING_UNFILTERED,
+    "mode 'none' (or a false or missing mode): its own text, whatever the taxa hold")
+check(Models.REPTILE_WARNING_UNFILTERED:find('Pick bioclip-2 ', 1, true) ~= nil
+    and Models.REPTILE_WARNING_UNFILTERED:find('taxa', 1, true) == nil,
+    "mode 'none': the advice is the other model, never the greyed-out taxa")
+check(Models.warningFor('bioclip-2.5', 'place', 'Mammalia,Reptilia') == Models.REPTILE_WARNING
+    and Models.REPTILE_WARNING:find('exclude Reptilia from the taxa', 1, true) ~= nil,
+    "mode 'place' with Reptilia: the advice names the taxa, which can be edited there")
 check(Models.warningFor('bioclip-2.5', 'place', 'Mammalia,Aves') == '', "mode 'place' without Reptilia: quiet")
 check(Models.warningFor('bioclip-2.5', 'gps', 'Mammalia,Reptilia') == Models.REPTILE_WARNING,
     "mode 'gps' with Reptilia: the standard warning")
