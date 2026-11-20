@@ -13,9 +13,10 @@ done**; the figures are in `docs/acceptance.md`. **Everything unticked is still 
 needs Lightroom Classic on the Mac (B, the rest of C) or a real install (D). The two boxes
 that waited for the CUDA run's files, one in 0 and one in E, were closed on 2026-11-15
 (backlog item 9 in `species-id-mvp-plan.md` §10). The owner took the decisions at the end
-of E on 2026-11-15. The six macOS-specific boxes of section B (V1 to V5, V8 and V11) were
-ticked on 2026-11-20: the owner reported them done. On that day this Mac holds Lightroom
-Classic 16.0 and WildID 0.3.2, both installed on 2026-11-16.
+of E on 2026-11-15. The boxes with a 2026-11-20 note were ticked that day on
+the owner's report, the six macOS-specific boxes of section B (V1 to V5, V8 and V11) first.
+On that day this Mac holds Lightroom Classic 16.0 and WildID 0.3.2, both installed on
+2026-11-16.
 
 On 2026-11-15 the owner declared macOS available ("it's there now"): the website and the
 READMEs present it so and quote the figures measured here. That changes nothing in this
@@ -157,17 +158,19 @@ macOS-specific items (V1–V11 of the build plan):
 The Windows items, once each on the Mac (V7; details and expected results are in
 `docs/acceptance-lightroom.md` §B, read paths in their macOS form):
 
-- [ ] Plugin loads with no Plug-in Manager errors; the five entries appear in the Library
+- [x] Plugin loads with no Plug-in Manager errors; the five entries appear in the Library
       menu and File → Plug-in Extras; "Identify" is greyed without a selection.
+      *(2026-11-20: reported done by the owner: all as expected.)*
 - [ ] "WildID: server status…" shows ready, model and uptime; Stop works.
-- [ ] Small run (5 mixed photos, crop on, no geo): dialog values persist; progress and summary
+- [x] Small run (5 mixed photos, crop on, no geo): dialog values persist; progress and summary
       correct; keyword tree `WildID → class → genus → species` with the common name as
       synonym; flat `animals` and `wildlife`; Metadata panel → "All Plug-in Metadata" shows
       species, class, score, status, model, run; collections
       `WildID/<class>/<genus>/<species — common name>`; a low-confidence frame in `_review`
-      with `WildID|review`.
-- [ ] Model choice: both radios with their subscripts; a run with bioclip-2.5 shows the model
+      with `WildID|review`. *(2026-11-20: reported done by the owner: all as expected.)*
+- [x] Model choice: both radios with their subscripts; a run with bioclip-2.5 shows the model
       loading and names it in the summary; with "keep both loaded" the switch is instant.
+      *(2026-11-20: reported done by the owner: all as expected.)*
 - [ ] Geo run: "WildID: prefetch place list…" (online) for a trip place, then Identify with
       the place set: out-of-place frames are flagged for review.
 - [ ] Auto-geo from GPS: prefetch the selection's GPS cells, then Identify with "each photo's
@@ -180,18 +183,22 @@ The Windows items, once each on the Mac (V7; details and expected results are in
       re-run is idempotent.
 - [ ] Kill the server mid-run (`pkill -f "wildid serve"`): clean error dialog naming how many
       photos were already tagged.
-- [ ] Edge cases: a folder with diacritics and spaces in its path round-trips; a virtual copy
+- [x] Edge cases: a folder with diacritics and spaces in its path round-trips; a virtual copy
       is skipped and counted; dry run writes nothing but reports counts.
+      *(2026-11-20: reported done by the owner: all as expected.)*
 - [ ] "WildID: delete empty collections…" lists and deletes empty collections and the genus
       and class sets a move emptied; smart collections and the chosen set stay.
-- [ ] "WildID: mark as reviewed": the selected flagged photos leave `_review`, lose
+- [x] "WildID: mark as reviewed": the selected flagged photos leave `_review`, lose
       `WildID|review` and show status `reviewed`; Edit → Undo puts keyword and membership back.
-- [ ] Exact detector resize *(added 2026-11-15)*: the checkbox "Exact detector resize (the
+      *(2026-11-20: reported done by the owner: all as expected.)*
+- [x] Exact detector resize *(added 2026-11-15)*: the checkbox "Exact detector resize (the
       same on a Mac and a PC)" under the crop row is off the first time, greyed while the
       crop and the second opinion are both off, and keeps its state between runs. Its title
       is not clipped. A run with it on finishes as usual.
-- [ ] Dialogs, the bezel message and combo boxes look right on macOS (fonts, widths, no
+      *(2026-11-20: reported done by the owner: all as expected.)*
+- [x] Dialogs, the bezel message and combo boxes look right on macOS (fonts, widths, no
       clipped text). Note anything that reads badly.
+      *(2026-11-20: reported done by the owner: all as expected.)*
 
 ## C. Sidecars on real ARWs
 
