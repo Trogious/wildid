@@ -10,11 +10,12 @@ that Mac (M5 Pro, 48 GB, macOS 26.5.1) with the bear fixture and with the instal
 in a throwaway home folder. Those marked *samples* were checked the same day once the owner's
 `sample-jpg/` and `sample-arw/` were in place: **sections 0, A, the file steps of C, and E are
 done**; the figures are in `docs/acceptance.md`. **Everything unticked is still open**: it
-needs Lightroom Classic on the Mac (B, the rest of C) or a real install (D). The two boxes
+needs Lightroom Classic on the Mac (the rest of C), a real install (D), or the firewall and
+a sleep (two boxes of A). The two boxes
 that waited for the CUDA run's files, one in 0 and one in E, were closed on 2026-11-15
 (backlog item 9 in `species-id-mvp-plan.md` §10). The owner took the decisions at the end
 of E on 2026-11-15. The boxes with a 2026-11-20 note were ticked that day on
-the owner's report, the six macOS-specific boxes of section B (V1 to V5, V8 and V11) first.
+the owner's report: with them **section B is complete**, and three boxes of D are ticked.
 On that day this Mac holds Lightroom Classic 16.0 and WildID 0.3.2, both installed on
 2026-11-16.
 
@@ -172,16 +173,17 @@ The Windows items, once each on the Mac (V7; details and expected results are in
 - [x] Model choice: both radios with their subscripts; a run with bioclip-2.5 shows the model
       loading and names it in the summary; with "keep both loaded" the switch is instant.
       *(2026-11-20: reported done by the owner: all as expected.)*
-- [ ] Geo run: "WildID: prefetch place list…" (online) for a trip place, then Identify with
+- [x] Geo run: "WildID: prefetch place list…" (online) for a trip place, then Identify with
       the place set: out-of-place frames are flagged for review.
-- [ ] Auto-geo from GPS: prefetch the selection's GPS cells, then Identify with "each photo's
+      *(2026-11-20: reported done by the owner.)*
+- [x] Auto-geo from GPS: prefetch the selection's GPS cells, then Identify with "each photo's
       GPS position"; a photo without GPS runs unfiltered, one in a cell not prefetched is
-      flagged, the summary counts both.
+      flagged, the summary counts both. *(2026-11-20: reported done by the owner.)*
 - [x] Move-on-rerun: a species change moves the photo between species collections, the
       summary counts it; keywords under `WildID` are replaced and stale `animals` /
       `wildlife` come off. *(2026-11-20: reported done by the owner: works.)*
-- [ ] Big run (200+ photos): smooth progress; cancel mid-run commits whole chunks only; a
-      re-run is idempotent.
+- [x] Big run (200+ photos): smooth progress; cancel mid-run commits whole chunks only; a
+      re-run is idempotent. *(2026-11-20: reported done by the owner.)*
 - [x] Kill the server mid-run (`pkill -f "wildid serve"`): clean error dialog naming how many
       photos were already tagged. *(2026-11-20: reported done by the owner.)*
 - [x] Edge cases: a folder with diacritics and spaces in its path round-trips; a virtual copy
