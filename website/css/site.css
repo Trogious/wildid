@@ -301,7 +301,7 @@ h4 { font: 650 1rem/1.4 var(--font-body); margin: 1.25rem 0 0.35rem; }
 .options dd { margin: 0; }
 
 .shot { margin: 1.25rem 0; }
-.shot img { display: block; width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); }
+.shot img { display: block; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); }
 .shot figcaption { margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-2); }
 .shot-wide { max-width: 62rem; margin: 2.25rem 0 0; }
 

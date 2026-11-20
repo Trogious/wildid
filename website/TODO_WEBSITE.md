@@ -40,12 +40,19 @@ publishes nothing. Once, in this order:
 
 ## Screenshots
 
-Overwrite the placeholder PNGs in `website/img/screenshots/` under the same file names. No
-page needs editing. Any size works; about 16:10 looks best.
+Overwrite the placeholder PNGs in `website/img/screenshots/` under the same file names, and
+set the tag's `width` and `height` in `website/index.html` to the picture's size in points
+(half its pixels for a capture from a Retina screen): a picture narrower than the text column
+is then shown at its own size. [`README.md`](README.md) says how to prepare a capture before
+it is committed.
 
-- [ ] `lightroom-after-run.png`: the whole Lightroom Classic window after a run, with the
+The seven Lightroom pictures are the owner's, taken on the Mac on 2026-11-20 with Lightroom
+Classic 16.0 and WildID 0.3.2, and went in that day. The five of the Windows installation are
+still placeholders.
+
+- [x] `lightroom-after-run.png`: the whole Lightroom Classic window after a run, with the
       WildID collection tree on the left and the Keyword List on the right. Photos you are
-      happy to publish.
+      happy to publish. *(2026-11-20.)*
 - [ ] `win-smartscreen.png`: "Windows protected your PC" after More info, with Run anyway
       visible.
 - [ ] `win-installer.png`: the installer on its Installing page, with the black download
@@ -53,13 +60,21 @@ page needs editing. Any size works; about 16:10 looks best.
 - [ ] `win-installer-finish.png`: the installer's last page, with the setup wizard ticked.
 - [ ] `win-wizard-questions.png`: the setup wizard with its questions answered.
 - [ ] `win-wizard-done.png`: the setup wizard at "Setup complete".
-- [ ] `lr-plugin-manager.png`: the Plug-in Manager with WildID installed and running.
-- [ ] `lr-menu.png`: the Library menu at Plug-in Extras, showing the five WildID entries.
-- [ ] `lr-identify-dialog.png`: the Identify dialog with default settings.
-- [ ] `lr-summary.png`: the summary after a run.
-- [ ] `lr-results-panels.png`: a close-up of Collections, Keyword List and Metadata after a
-      run.
-- [ ] `lr-prefetch-dialog.png`: the prefetch place list dialog with a country typed in.
+- [x] `lr-plugin-manager.png`: the Plug-in Manager with WildID installed and running.
+      *(2026-11-20; the account name in the path is blanked.)*
+- [x] `lr-menu.png`: the Library menu at Plug-in Extras, showing the five WildID entries.
+      *(2026-11-20: the picture shows File → Plug-in Extras, which holds the same entries;
+      caption and alt text say so.)*
+- [x] `lr-identify-dialog.png`: the Identify dialog with default settings. *(2026-11-20: not
+      the defaults. The second opinion is ticked and "Review below score" reads 0.7, where
+      the text beside the picture gives the default, 0.5.)*
+- [x] `lr-summary.png`: the summary after a run. *(2026-11-20.)*
+- [x] `lr-results-panels.png`: a close-up of Collections, Keyword List and Metadata after a
+      run. *(2026-11-20: the whole window, with the collection tree and the Keyword List
+      opened. The Metadata panel is closed, so caption and alt text name collections and
+      keywords only.)*
+- [x] `lr-prefetch-dialog.png`: the prefetch place list dialog with a country typed in.
+      *(2026-11-20.)*
 
 Optional:
 
@@ -96,11 +111,15 @@ Still needed before a visitor can rely on it:
 - [ ] **A release with the Mac download.** The macOS buttons point to
       `https://github.com/Trogious/wildid/releases/latest`, like the Windows ones. The
       repository has no release yet, so nothing carries `WildID-<version>-macos-arm64.zip`.
-- [ ] **The Lightroom steps on a Mac.** They were written from the code and from the Windows
+- [x] **The Lightroom steps on a Mac.** They were written from the code and from the Windows
       run. Nobody has seen them on a Mac yet (`docs/acceptance-macos.md`, section B): the
       plugin loading by itself from the `Modules` folder, the Identify dialog's memory line
       ("Apple M5 Pro, unified memory: 40.2 GB usable"), the engine starting from the plugin.
-      Correct the guide in `index.html` if one of them turns out differently.
+      Correct the guide in `index.html` if one of them turns out differently. *(2026-11-20:
+      section B is complete on the owner's report, these three points among its boxes, and
+      the Identify picture taken that day shows the memory line as quoted. Since then the
+      Lightroom pictures of the Windows guide are from the Mac; the caption of the first one
+      says so.)*
 - [x] **The exact detector resize.** `hardware.html` and `command-line.html` said the option
       is "meant to" give the same pixels on every computer. Backlog item 13 in
       `species-id-mvp-plan.md` measured that on the Mac and the Linux box. *(2026-11-15: it

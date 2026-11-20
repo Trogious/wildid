@@ -12,7 +12,7 @@ workflow changes is the site's own address (see Hosting).
 | `css/site.css` | The only stylesheet; light and dark theme follow the visitor's system |
 | `fonts/` | Newsreader 500 roman and italic (headings, species names), self-hosted; `OFL.txt` is its licence |
 | `img/og-image.png` | The 1200 × 630 image shown when a link to the site is shared |
-| `img/screenshots/` | Twelve screenshots, placeholders until replaced (below) |
+| `img/screenshots/` | Twelve screenshots: the seven of Lightroom are real, taken on a Mac on 2026-11-20; the five of the Windows installation are placeholders until replaced (below) |
 | `README.md`, `TODO_WEBSITE.md` | Notes for whoever maintains the site: this file, and the checklist of what is still missing |
 
 ## Look at it
@@ -42,8 +42,20 @@ Opening `website/index.html` directly in a browser works too.
    `grep -rn WILDID-SITE-URL website --include=*.html --include=*.xml --include=*.txt` must
    print nothing.
 2. **Screenshots.** Overwrite the placeholder PNGs in `img/screenshots/` with real ones under
-   the same file names; nothing else needs editing. Any size works, about 16:10 looks best,
-   and the width should be at least 1600 pixels for the two Lightroom overviews.
+   the same file names. The seven Lightroom pictures are in since 2026-11-20; the five of the
+   Windows installation are still placeholders. Any size works, and the width should be at
+   least 1600 pixels for the two Lightroom overviews. In `index.html`, set the tag's `width`
+   and `height` to the picture's size in points, which is half its pixels for a capture from
+   a Retina screen: a picture narrower than the text column is then shown at its own size,
+   and a wider one is fitted to the column.
+
+   Before a capture is committed, look at what it carries and what it shows (`CLAUDE.md`,
+   "Public repository"). A macOS screenshot holds the colour profile of the screen it was
+   taken on, with data of that screen, and an EXIF and an XMP block: convert it to sRGB and
+   save it with no profile and no metadata. In the picture, look for account names: the path
+   in the Plug-in Manager, and the line under "Adobe Lightroom Classic" at the top left of
+   the Lightroom window. The pictures of 2026-11-20 were prepared that way, and the two
+   captures of the whole window were halved to 2168 pixels.
 
    | File | What to capture |
    |---|---|
@@ -59,6 +71,11 @@ Opening `website/index.html` directly in a browser works too.
    | `lr-summary.png` | The summary message after a run |
    | `lr-results-panels.png` | Close-up after a run: Collections panel with the WildID tree, Keyword List with the WildID branch, Metadata panel on All Plug-in Metadata |
    | `lr-prefetch-dialog.png` | The "WildID: prefetch place list" dialog with a country typed in |
+
+   The pictures of 2026-11-20 differ from this list in three places, noted in
+   `TODO_WEBSITE.md`: the menu is File → Plug-in Extras, the Identify dialog is not at its
+   defaults, and the results picture is a whole window with the Metadata panel closed. The
+   captions and alt texts in `index.html` describe what the pictures show.
 
 3. **Links that assume the public repository.** The download buttons point to
    `https://github.com/Trogious/wildid/releases/latest`, "Source code" to the repository and
