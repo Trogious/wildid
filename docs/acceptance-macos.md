@@ -161,7 +161,8 @@ The Windows items, once each on the Mac (V7; details and expected results are in
 - [x] Plugin loads with no Plug-in Manager errors; the five entries appear in the Library
       menu and File → Plug-in Extras; "Identify" is greyed without a selection.
       *(2026-11-20: reported done by the owner: all as expected.)*
-- [ ] "WildID: server status…" shows ready, model and uptime; Stop works.
+- [x] "WildID: server status…" shows ready, model and uptime; Stop works.
+      *(2026-11-20: reported done by the owner.)*
 - [x] Small run (5 mixed photos, crop on, no geo): dialog values persist; progress and summary
       correct; keyword tree `WildID → class → genus → species` with the common name as
       synonym; flat `animals` and `wildlife`; Metadata panel → "All Plug-in Metadata" shows
@@ -181,8 +182,8 @@ The Windows items, once each on the Mac (V7; details and expected results are in
       `wildlife` come off. *(2026-11-20: reported done by the owner: works.)*
 - [ ] Big run (200+ photos): smooth progress; cancel mid-run commits whole chunks only; a
       re-run is idempotent.
-- [ ] Kill the server mid-run (`pkill -f "wildid serve"`): clean error dialog naming how many
-      photos were already tagged.
+- [x] Kill the server mid-run (`pkill -f "wildid serve"`): clean error dialog naming how many
+      photos were already tagged. *(2026-11-20: reported done by the owner.)*
 - [x] Edge cases: a folder with diacritics and spaces in its path round-trips; a virtual copy
       is skipped and counted; dry run writes nothing but reports counts.
       *(2026-11-20: reported done by the owner: all as expected.)*
@@ -260,11 +261,23 @@ Copies only; use a test catalog. The same twelve steps as the Windows run
       Mac has Homebrew's; afterwards
       `readlink "$HOME/Library/Application Support/WildID/app/.venv/bin/python"` points into
       `~/.local/share/uv/python/`.
-- [ ] The documented claim: double-clicking `install.sh` in Finder does **not** install
+- [x] The documented claim: double-clicking `install.sh` in Finder does **not** install
       (blocked, or opened in an editor), and `bash install.sh` does. If macOS behaves
       otherwise, `README-macOS.md` needs correcting.
-- [ ] A **new** Terminal window: `wildid-setup` runs the wizard to "Setup complete".
-- [ ] Lightroom: the plugin auto-loaded (V1), Identify works, no Gatekeeper dialog (V11).
+      *(2026-11-20: reported done by the owner. On record from 2026-11-16
+      (`install_mac_output.txt`): the one install into this home folder was started as
+      `./install.sh` from the unzipped download and installed, although the header of
+      `install.sh` says macOS blocks that form too. Whether that download carried the
+      quarantine flag is not recorded.)*
+- [x] A **new** Terminal window: `wildid-setup` runs the wizard to "Setup complete".
+      *(2026-11-20: ticked on the owner's word, on the record of his run of 2026-11-16
+      (`install_mac_output.txt`): the wizard ran to "Setup complete" with both models, the
+      detector, SpeciesNet and one place list. It was started by its full path in the
+      window of the install, the PATH line having been declined; the bare command in a new
+      window has not been shown in this home folder, where no PATH line was ever added.)*
+- [x] Lightroom: the plugin auto-loaded (V1), Identify works, no Gatekeeper dialog (V11).
+      *(2026-11-20: reported done by the owner, as V1, V2/V5 and V11 of section B, on the
+      install of 2026-11-16.)*
 - [ ] `bash "$HOME/Library/Application Support/WildID/uninstall.sh"`: program, plugin and the
       PATH line gone; `~/Library/Caches/wildid` and the Hugging Face cache intact.
 - [ ] Upgrade: run `install.sh` from a newer zip over an existing install; a running server is
