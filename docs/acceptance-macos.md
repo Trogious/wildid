@@ -13,7 +13,9 @@ done**; the figures are in `docs/acceptance.md`. **Everything unticked is still 
 needs Lightroom Classic on the Mac (B, the rest of C) or a real install (D). The two boxes
 that waited for the CUDA run's files, one in 0 and one in E, were closed on 2026-11-15
 (backlog item 9 in `species-id-mvp-plan.md` §10). The owner took the decisions at the end
-of E on 2026-11-15.
+of E on 2026-11-15. The six macOS-specific boxes of section B (V1 to V5, V8 and V11) were
+ticked on 2026-11-20: the owner reported them done. On that day this Mac holds Lightroom
+Classic 16.0 and WildID 0.3.2, both installed on 2026-11-16.
 
 On 2026-11-15 the owner declared macOS available ("it's there now"): the website and the
 READMEs present it so and quote the figures measured here. That changes nothing in this
@@ -28,8 +30,10 @@ Lightroom Classic.
 ## 0. Session setup
 
 - [x] Machine recorded: Apple M5 Pro, 48 GB, macOS 26.5.1. *(2026-11-14.)* Lightroom Classic
-      build: — *(not installed yet; note it here, and the macOS version Adobe requires for
-      it: ADR 0008 decision 2 could not confirm that floor.)*
+      16.0, installed on 2026-11-16. *(2026-11-20: version read from the installed
+      application, whose bundle declares macOS 14.0 as its minimum. Adobe's requirements
+      page, which ADR 0008 decision 2 could not open, was not read again. The build number
+      shown in Help → System Info is still to be noted here.)*
 - [x] `git pull` on `main`; `uv sync --locked` (the lock's macOS arm64 wheels, torch 2.14.1).
       *(2026-11-14: uv 0.13.6 from Homebrew; `.venv` 1.2 GB; MPS built and available.)*
 - [x] `uv run pytest -q` and `uv run ruff check .` *(2026-11-14: 188 passed, 5 skipped —
@@ -118,17 +122,20 @@ Use a **test catalog** for the first pass.
 
 macOS-specific items (V1–V11 of the build plan):
 
-- [ ] V1: after `install.sh` the plugin is listed in Plug-in Manager as installed and running
+- [x] V1: after `install.sh` the plugin is listed in Plug-in Manager as installed and running
       **without** "Add" (the `Modules` folder auto-loads on macOS). If not, note it: the
       fallback is Add → `~/Library/Application Support/Adobe/Lightroom/Modules/wildid.lrplugin`.
-- [ ] V2, V5: with no server running, Identify starts it through `engine.json` →
+      *(2026-11-20: reported done by the owner.)*
+- [x] V2, V5: with no server running, Identify starts it through `engine.json` →
       `bin/wildid-server-start`: Lightroom does not freeze, no Terminal window opens, the
       progress reaches "identifying". Afterwards `pgrep -fl "wildid serve"` shows one process.
-- [ ] V3: hand-install route. Remove `engine.json` from the plugin folder, start a server by
+      *(2026-11-20: reported done by the owner.)*
+- [x] V3: hand-install route. Remove `engine.json` from the plugin folder, start a server by
       hand (`wildid serve`) and run Identify: the plugin finds it through
       `~/Library/Caches/wildid/serve.json` (`io.open` and `os.getenv('HOME')` work in
       Lightroom's Lua on macOS). Put `engine.json` back.
-- [ ] V8: the Identify dialog's memory line reads "Apple M5 Pro, unified memory: 40.2 GB
+      *(2026-11-20: reported done by the owner.)*
+- [x] V8: the Identify dialog's memory line reads "Apple M5 Pro, unified memory: 40.2 GB
       usable" and "Keep both models loaded" is enabled on this Mac (40.2 GB passes the 30 GB
       rule for unified memory). The two subscripts end on "~12 GB memory" and "~13 GB memory"
       and the checkbox reads "Keep both models loaded (~20 GB memory)": no "VRAM" anywhere.
@@ -138,11 +145,14 @@ macOS-specific items (V1–V11 of the build plan):
       before the server was running is not honoured once the server reports its memory. The
       rule is covered by `lrplugin/tests/models_test.lua`; the second half is one line in
       `WildidIdentify.lua` that no test reaches.
-- [ ] V11: no Gatekeeper dialog at any point; `xattr -l "$HOME/Library/Application Support/WildID/uv"`
-      shows no `com.apple.quarantine`.
-- [ ] V4: Smart Preview fallback with originals on an external drive
+      *(2026-11-20: reported done by the owner; no `vram.free_gb` figure is recorded.)*
+- [x] V11: no Gatekeeper dialog at any point; `xattr -l "$HOME/Library/Application Support/WildID/uv"`
+      shows no `com.apple.quarantine`. *(2026-11-20: reported done by the owner. The command,
+      run that day, lists `com.apple.provenance` only.)*
+- [x] V4: Smart Preview fallback with originals on an external drive
       (`/Volumes/<drive>/…`), drive ejected: those photos are identified from the Smart
       Preview and counted in the summary; offline originals without one are skipped and counted.
+      *(2026-11-20: reported done by the owner.)*
 
 The Windows items, once each on the Mac (V7; details and expected results are in
 `docs/acceptance-lightroom.md` §B, read paths in their macOS form):
