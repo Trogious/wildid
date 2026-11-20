@@ -176,9 +176,9 @@ The Windows items, once each on the Mac (V7; details and expected results are in
 - [ ] Auto-geo from GPS: prefetch the selection's GPS cells, then Identify with "each photo's
       GPS position"; a photo without GPS runs unfiltered, one in a cell not prefetched is
       flagged, the summary counts both.
-- [ ] Move-on-rerun: a species change moves the photo between species collections, the
+- [x] Move-on-rerun: a species change moves the photo between species collections, the
       summary counts it; keywords under `WildID` are replaced and stale `animals` /
-      `wildlife` come off.
+      `wildlife` come off. *(2026-11-20: reported done by the owner: works.)*
 - [ ] Big run (200+ photos): smooth progress; cancel mid-run commits whole chunks only; a
       re-run is idempotent.
 - [ ] Kill the server mid-run (`pkill -f "wildid serve"`): clean error dialog naming how many
@@ -186,8 +186,9 @@ The Windows items, once each on the Mac (V7; details and expected results are in
 - [x] Edge cases: a folder with diacritics and spaces in its path round-trips; a virtual copy
       is skipped and counted; dry run writes nothing but reports counts.
       *(2026-11-20: reported done by the owner: all as expected.)*
-- [ ] "WildID: delete empty collections…" lists and deletes empty collections and the genus
+- [x] "WildID: delete empty collections…" lists and deletes empty collections and the genus
       and class sets a move emptied; smart collections and the chosen set stay.
+      *(2026-11-20: reported done by the owner: works.)*
 - [x] "WildID: mark as reviewed": the selected flagged photos leave `_review`, lose
       `WildID|review` and show status `reviewed`; Edit → Undo puts keyword and membership back.
       *(2026-11-20: reported done by the owner: all as expected.)*
